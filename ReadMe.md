@@ -7,6 +7,8 @@ This is an application to manage your loan applications. It is composed of a bac
 
 ## Installation and Usage
 
+Before, running the application, there are a few steps you need to follow.
+
 ### Backend
 
 Naviguate to the backend
