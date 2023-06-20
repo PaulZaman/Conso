@@ -27,7 +27,24 @@ CREATE DATABASE Conso_DB;
 exit;
 ```
 
-Now that your database is created, you can initialize the backend. To do so, run the following commands (in the same directory /conso-back):
+Now you have to create the connection to the database. To do so, you need to create a file named "connection.js" in the conso-back/database directory, that is already created. In this file, you need to write the following lines:
+
+
+```javascript
+// database/connection.js
+
+const { Sequelize } = require('sequelize');
+
+const sequelize = new Sequelize('Conso_DB', 'USER', 'PASSWORD', {
+	host: 'localhost',
+	dialect: 'mysql',
+});
+
+module.exports = sequelize; 
+```
+Do not forget to replace the "USER" and "PASSWORD" with your own mysql user and password. (USER is generally "root" and PASSWORD is the password you chose when you installed mysql)
+
+Now that your database is created, and that your connection is established, you can initialize the backend. To do so, run the following commands (in the same directory /conso-back):
 
 
 ```bash
