@@ -16,6 +16,12 @@ node syncdb.js
 node app.js
 ```
 
+then exit this folder to go back to the main directory
+
+```bash
+cd ..
+```
+
 then launch the frontend, from the main directory, run the following commands:
 
 ```bash
