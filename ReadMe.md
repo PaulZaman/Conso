@@ -55,7 +55,7 @@ node syncdb.js
 node app.js
 ```
 
-Now the backend is running. You can test it by going to http://localhost:3000/. You should see a "Hello World!" message
+Now the backend is running. You can test it by going to http://localhost:8080/. You should see a "Hello World!" message
 
 ### Frontend
 
