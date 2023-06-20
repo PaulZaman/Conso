@@ -20,7 +20,7 @@ You first need to create the database. To do so, you need to have mysql installe
 ```bash
 mysql -u root -p
 ```
-You then enter you password and run the following commands:
+You then enter your password and run the following commands:
 
 ```bash
 CREATE DATABASE Conso_DB;
