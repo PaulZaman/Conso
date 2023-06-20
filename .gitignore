@@ -1,0 +1,6 @@
+# node modules in the front and back
+
+/conso-back/node_modules
+/conso-back/database/connection.js
+/conso-front/node_modules
+
