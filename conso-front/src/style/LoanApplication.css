@@ -1,0 +1,16 @@
+.uploadSection {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.fileSection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.sectionPair {
+    display: flex;
+}

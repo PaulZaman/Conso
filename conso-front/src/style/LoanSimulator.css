@@ -1,0 +1,53 @@
+.loan-simulator-container {
+    display: flex;
+    justify-content: center;
+    gap : 100px;
+  }
+  
+  .form-box {
+    background-color: white;
+    border-radius: 25px;
+ 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: left;
+    padding: 10px;
+    width: 30%;
+    color:#9E44E4;
+    font-family: "Arial";
+    font-weight: 900;
+  }
+  
+  .results-box {
+    background-color: #9E44E4;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+   /* je veux que les inputs soient équitablement répartis sur la largeur de la box
+    et qu'ils aient une marge de 10px entre eux */
+    padding: 10px;
+
+    color : white;
+    width: 30%;
+    font-family: "Arial";
+    font-weight: 900;
+  }
+  .results-box p {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .results-box p span {
+    margin-left: 10px;
+  }
+  
+  h1 {
+
+    font-family: "Arial";
+    font-weight: 900;
+
+  }

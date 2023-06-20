@@ -1,0 +1,26 @@
+.content_card{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    align-content: center;
+    background-color: #f2f4f5;
+    color: black;
+    width:30%;
+    padding: 0.5rem;
+    gap: 1rem;
+    border-radius: 1rem;
+    margin-top : 2rem;
+    margin-bottom: 5rem;
+    box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2), 0 18px 30px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+.content_card:hover{
+    transition:2s ease-out 100ms
+
+}
+
+.icon {
+    font-size: 30px;
+}

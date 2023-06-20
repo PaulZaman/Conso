@@ -1,0 +1,21 @@
+h1 {
+    color: white
+}
+
+.content_group {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 1rem;
+}
+
+.headSlogan {
+    font-size: 60px;
+    line-height: 1em;
+    margin: 6rem 3rem 3rem 3rem;
+    justify-content: left;
+    width: 45%;
+}
+
+.test {
+    font-weight:900;
+}

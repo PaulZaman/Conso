@@ -1,0 +1,18 @@
+.Button {
+    background-color:  #9E44E4;;
+    border-radius: 1rem;
+    border-width: 0;
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.2), 0 9px 15px 0 rgba(0, 0, 0, 0.19);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    color: white;
+}
+
+.Button:hover {
+    background-color: #f2f4f5;
+    color: black
+}
+
+.textLink {
+    font-size: 15px;
+}

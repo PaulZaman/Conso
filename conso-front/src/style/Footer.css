@@ -1,0 +1,30 @@
+footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #f2f4f5;
+    padding: 1rem;
+    border-radius: 1rem;
+    margin-top: 3rem;
+    box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2), 0 18px 30px 0 rgba(0, 0, 0, 0.19);
+
+}
+
+.footer_list{
+    display: grid;
+    flex-direction: column;
+    gap: 1rem
+}
+
+footer a {
+    color: black;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+footer a:hover {
+    color:#9E44E4;
+}
+
+
+

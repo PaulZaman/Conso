@@ -1,0 +1,17 @@
+.submitSection {
+    background-color: #f2f4f5;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    margin: 2rem;
+    width: fit-content;
+}
+
+.buttonGroup {
+    display: flex;
+    gap: 1rem;
+}
