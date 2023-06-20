@@ -11,7 +11,7 @@ Before, running the application, there are a few steps you need to follow.
 
 ### Backend
 
-Naviguate to the backend
+Navigate to the backend
 
 ```bash
 cd conso-back
@@ -71,3 +71,12 @@ yarn install
 yarn dev
 ```
 
+Now you are all set ! You can access the website on the url displayed in the terminal. 
+The default user is a client, you can log in with the following credentials:
+
+```bash
+email:
+admin@gmail.com
+password:
+admin
+```
