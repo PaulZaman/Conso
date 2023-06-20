@@ -36,18 +36,18 @@ node syncdb.js
 node app.js
 ```
 
-Then exit this folder to go back to the main directory
-
-```bash
-cd ..
-```
+Now the backend is running. You can test it by going to http://localhost:3000/. You should see a "Hello World!" message
 
 ### Frontend
 
-then launch the frontend, from the main directory, run the following commands:
+Now you can open a new terminal, to launch the frontend, from the main directory, run the following commands:
 
 ```bash
 cd conso-front
+```
+This allows you to navigate to the frontend directory. Then, run the following commands:
+
+```bash
 yarn install
 yarn dev
 ```
