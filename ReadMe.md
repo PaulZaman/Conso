@@ -54,7 +54,7 @@ npm install
 node syncdb.js
 node app.js
 ```
-
+Wait a few seconds, the second command takes a bit of time.
 Now the backend is running. You can test it by going to http://localhost:8080/. You should see a "Hello World!" message
 
 ### Frontend
