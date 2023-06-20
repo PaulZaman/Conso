@@ -5,6 +5,8 @@
 
 This is an application to manage your loan applications. It is composed of a backend and a frontend. The backend is made with Expressjs and sequelize, and the frontend with ReactJS and Vite. It puts in contact bankers and users to get the most attractive loan offers. It is a school project.
 
+## Installation and Usage
+
 ### Backend
 
 Naviguate to the backend
