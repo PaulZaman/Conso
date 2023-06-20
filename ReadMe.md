@@ -3,11 +3,9 @@
 
 ## Description
 
-BLa BLA BLA BLA
+This is an application to manage your loan applications. It is composed of a backend and a frontend. The backend is made with Expressjs and sequelize, and the frontend with ReactJS and Vite. It puts in contact bankers and users to get the most attractive loan offers. It is a school project.
 
-## How to run
-
-### backend
+### Backend
 
 Naviguate to the backend
 
@@ -36,11 +34,13 @@ node syncdb.js
 node app.js
 ```
 
-then exit this folder to go back to the main directory
+Then exit this folder to go back to the main directory
 
 ```bash
 cd ..
 ```
+
+### Frontend
 
 then launch the frontend, from the main directory, run the following commands:
 
