@@ -12,13 +12,13 @@ router.post('/create', createUser);
 router.delete('/delete', authenticate, deleteUser);
 
 // get a user
-router.get('/get', authenticate, getUser);
+router.post('/get', authenticate, getUser);
 
 // validate a user
 router.post('/validate', validate);
 
 // Update a user
-router.put('/update', authenticate, updateUser);
+router.post('/update', authenticate, updateUser);
 
 // Create a new loan application
 router.post('/apply', CreateLoanApplication);

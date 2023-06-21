@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "../style/Login.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -94,7 +94,7 @@ function LoginForm() {
     <div>
       <Header />
       <div className="loginCard">
-        <h2>Happy to see you again!</h2>
+        <h2 className="loginTitle">Happy to see you again!</h2>
         <form className="connexionForm">
           <div>
             <input
@@ -125,7 +125,7 @@ function LoginForm() {
           </div>
 
           <p className="textLink">
-            Don't have an account?{" "}
+            Don`t have an account?{" "}
             <a className="signInLink" href="/signin">
               Sign in
             </a>

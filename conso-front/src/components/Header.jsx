@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import "../style/Header.css";
 import Logo from "../asset/logo.png";
 import authentificate_user from "../authentification";
+import Button from "./button";
+import profileLogo from '../asset/profile.png'
 
 export default function Header() {
   const [loggedIn, setLoggedIn] = useState(false);
@@ -34,17 +36,9 @@ export default function Header() {
         Déposer ma demande de prêt
       </a>
       {loggedIn ? (
-        <button className="buttonHeader" type="button" onClick={handleLogout}>
-          Se déconnecter
-        </button>
+      <img className="profileLogo" src={profileLogo} onClick={() => (window.location.href = '/profile')}></img>
       ) : (
-        <button
-          className="buttonHeader"
-          type="button"
-          onClick={() => (window.location.href = "/login")}
-        >
-          Se connecter
-        </button>
+        <Button onClick={() => (window.location.href = '/login')} text="Se connecter" />
       )}
     </header>
   );

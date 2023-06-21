@@ -4,7 +4,7 @@ export default function Button(props){
     return(
         <a href={props.to}>
             <button onClick={props.onClick} className='Button' type='button'>
-                <p>{props.text}</p>
+                <p className='textLink'>{props.text}</p>
             </button>
         </a>
     );
