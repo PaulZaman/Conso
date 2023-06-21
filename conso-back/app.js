@@ -32,6 +32,9 @@ app.use('/bank', require('./routes/bank'));
 // Mount the document routes
 app.use('/document', require('./routes/document'));
 
+// Mount the banker routes
+app.use('/banker', require('./routes/banker'));
+
 // hello world
 app.get('/', (req, res) => {
 	res.send('Hello World!');
