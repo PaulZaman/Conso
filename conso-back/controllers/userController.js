@@ -5,10 +5,11 @@ const Document = require('../models/DocumentModel');
 const Token = require('../models/TokenModel');
 const transporter = require('../email');
 const LoanApplications = require('../models/LoanApplicationModel');
+const Banker = require('../models/BankerModel');
 
 async function createUser(req, res) {
 	try {
-		const { firstname, lastname, dob, email, password, profile_image_path = "", is_verified = false } = req.body;
+		const { firstname, lastname, dob, email, password, profile_image_path = "", } = req.body;
 		// check if the user is at least 18 years old
 		const today = new Date();
 		const birthDate = new Date(dob);
@@ -22,7 +23,7 @@ async function createUser(req, res) {
 		}
 
 		// Create the user using the User model
-		const user = await User.create({ firstname, lastname, dob, email, password, is_verified, profile_image_path });
+		const user = await User.create({ firstname, lastname, dob, email, password, is_verified: false, profile_image_path });
 
 		// Send a verification email to the user
 		sendVerificationMail(user.email, user.id);
@@ -42,7 +43,7 @@ async function createUser(req, res) {
 
 async function deleteUser(req, res) {
 	try {
-		const { id } = req.params;
+		const { id } = req.body;
 		// find documents owned by the user
 		const user = await User.findByPk(id);
 		if (!user) {
@@ -79,20 +80,61 @@ async function deleteUser(req, res) {
 
 async function updateUser(req, res) {
 	try {
-		const { firstname, lastname, dob, email, password, is_verified, profile_image_path, user_id } = req.body;
-		const id = user_id;
-
-		// Update the user using the User model
-		const [rowCount] = await User.update(
-			{ firstname, lastname, dob, email, password, is_verified, profile_image_path },
-			{ where: { id } }
-		);
-
-		if (rowCount === 0) {
+		const {
+			firstname = "",
+			lastname = "",
+			dob = "",
+			email = "",
+			password = "",
+			old_password = "",
+			profile_image_path = "",
+			id
+		} = req.body;
+		// check if the user exists
+		const user = await User.findByPk(id);
+		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
-
-		res.status(200).json({ message: 'User updated successfully' });
+		// if old_password is provided, check if it matches the old password
+		if (password) {
+			if (!old_password) {
+				return res.status(500).json({ message: 'Old password is required to change password' });
+			}
+			// check if the old password matches the one in the database
+			if (!user.password == old_password) {
+				return res.status(500).json({ message: 'Old password is incorrect' });
+			}
+			// change the password
+			user.password = password;
+		}
+		// if the email is changed, send a verification email
+		if (email && email !== user.email) {
+			// check if the email already exists
+			const user_with_same_email = await User.findOne({ where: { email } });
+			if (user_with_same_email) {
+				return res.status(500).json({ message: 'Email already exists' });
+			}
+			// update the email
+			user.email = email;
+			// send a verification email
+			sendVerificationMail(email, id);
+			// set the user as unverified
+			user.is_verified = false;
+		}
+		// change the other fields
+		if (firstname) {
+			user.firstname = firstname;
+		}
+		if (lastname) {
+			user.lastname = lastname;
+		}
+		if (dob) {
+			user.dob = dob;
+		}
+		if (profile_image_path) {
+			user.profile_image_path = profile_image_path;
+		}
+		res.status(200).json({ message: 'User updated successfully', user });
 	} catch (error) {
 		if (error.name === 'SequelizeValidationError') {
 			return res.status(500).json({ message: error.errors[0].message });
@@ -171,16 +213,48 @@ async function getUser(req, res) {
 async function getUserApplications(req, res) {
 	const { id } = req.body;
 	try {
+		// find the user
 		const user = await User.findByPk(id);
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
+		// check if the user is a banker
+		const banker = await Banker.findOne({ where: { user_id: id } });
+		if (banker) {
+			return res.status(200).json({ message: 'User is a banker, bankers cannot apply for loans' });
+		}
+		// find the applications
 		const applications = await LoanApplications.findAll({ where: { user_id: id } });
-		res.status(200).json({ message: 'User found', applications });
+		res.status(200).json({ message: 'Found Applications', applications });
+	} catch (error) {
+		res.status(500).json({ message: 'Error getting user' });
+	}
+}
+
+async function userIsBanker(req, res) {
+	const { id } = req.body;
+	try {
+		const user = await User.findByPk(id);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		const banker = await Banker.findOne({ where: { user_id: id } });
+		if (!banker) {
+			return res.status(404).json({ message: 'User is not a banker', result: false });
+		}
+		res.status(200).json({ message: 'User is a banker', result: true });
 	} catch (error) {
 		res.status(500).json({ message: 'Error getting user' });
 	}
 }
 
 
-module.exports = { createUser, deleteUser, updateUser, validate, getUser, getUserApplications };
+module.exports = {
+	createUser,
+	deleteUser,
+	updateUser,
+	validate,
+	getUser,
+	getUserApplications,
+	userIsBanker
+};

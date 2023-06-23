@@ -75,8 +75,11 @@ Now you are all set ! You can access the website on the url displayed in the ter
 The default user is a client, you can log in with the following credentials:
 
 ```bash
-email:
-admin@gmail.com
-password:
-admin
+email:admin@gmail.com
+password:admin
+```
+
+```bash
+email:admin-banker@gmail.com
+password:admin
 ```
