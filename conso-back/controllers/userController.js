@@ -4,6 +4,7 @@ const User = require('../models/UserModel');
 const Document = require('../models/DocumentModel');
 const Token = require('../models/TokenModel');
 const transporter = require('../email');
+const LoanApplications = require('../models/LoanApplicationModel');
 
 async function createUser(req, res) {
 	try {
@@ -167,6 +168,19 @@ async function getUser(req, res) {
 	}
 }
 
+async function getUserApplications(req, res) {
+	const { id } = req.body;
+	try {
+		const user = await User.findByPk(id);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		const applications = await LoanApplications.findAll({ where: { user_id: id } });
+		res.status(200).json({ message: 'User found', applications });
+	} catch (error) {
+		res.status(500).json({ message: 'Error getting user' });
+	}
+}
 
 
-module.exports = { createUser, deleteUser, updateUser, validate, getUser };
+module.exports = { createUser, deleteUser, updateUser, validate, getUser, getUserApplications };
