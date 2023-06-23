@@ -24,6 +24,6 @@ router.post('/update', authenticate, updateUser);
 router.post('/apply', authenticate, CreateLoanApplication);
 
 // Get all loan applications of a user
-router.get('/apply', authenticate, getUserApplications);
+router.post('/applications', authenticate, getUserApplications);
 
 module.exports = router;

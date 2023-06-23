@@ -58,8 +58,6 @@ export default function Profile() {
      fetch(`${apiLink}/user/update` , {
       method: "POST",
       body: JSON.stringify({
-        firstname: firstName,
-        lastname: lastName,
         dob: dob,
         email: email,
         password: password,

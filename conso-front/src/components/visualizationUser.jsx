@@ -11,7 +11,7 @@ export default function VisualizationUser(props){
 
     if (props.status === 'pending') {
         color = 'orange';
-    } else if (props.status === 'accepted') {
+    } else if (props.status === 'approved') {
         color = 'green';
     } else {
         color = 'red';
@@ -23,9 +23,10 @@ export default function VisualizationUser(props){
         <div style={{borderColor: color}}className='visualizationCard'>
                 <p>{props.applicationID}</p>
                 <p>{props.bank}</p>
-                <p>{props.date}</p>
                 <p>{props.amount}</p>
                 <p>{props.tenure}</p>
+                <p>{props.date}</p>
+
                 <a className='link' onClick={handleDelete}>Delete</a>
         </div>
 
