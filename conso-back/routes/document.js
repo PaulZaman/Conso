@@ -14,6 +14,6 @@ router.post('/', authenticate, postDocumentUser);
 router.get('/types', getDocumentTypes);
 
 // Get all documents for a user
-router.get('/', authenticate, getDocumentsUser);
+router.post('/', authenticate, getDocumentsUser);
 
 module.exports = router;

@@ -5,6 +5,8 @@ import { useState, useEffect } from 'react';
 import '../style/Profile.css';
 import Button from "../components/button";
 import apiLink from "../constants";
+import authentificate_user from "../authentification";
+
 
 export default function Profile() {
   const [firstName, setFirstName] = useState('');
@@ -14,6 +16,13 @@ export default function Profile() {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
+    const authenticateUser = async () => {
+      let res = await authentificate_user();
+      if (res === false) {
+        window.location.href = "/login";
+      }
+    };
+    authenticateUser();
     const getInfo = async () => {
       fetch(`${apiLink}/user/get` , {
         method: "POST",

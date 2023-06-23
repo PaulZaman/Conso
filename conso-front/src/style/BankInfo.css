@@ -1,0 +1,25 @@
+.bankInfoCard {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    background-color: #f2f4f5;
+    border-radius: 1rem;
+    width: fit-content;
+    padding: 1rem;
+    box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2), 0 18px 30px 0 rgba(0, 0, 0, 0.19);
+    text-align: left;
+}
+
+img{
+    align-self:center;
+}
+
+
+.bankDescription {
+    font-size: 17px;
+}
+
+
+.bankLink {
+    font-size: 13px;
+}
