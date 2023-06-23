@@ -23,7 +23,7 @@ export default function FileUploader(props) {
       <div className='submitSection'>
 
         <h2>{props.title}</h2>
-          <input type="file" onChange={handleFileChange} />
+          <input className='fileInput' type="file" onChange={handleFileChange} />
           <div className='buttonGroup'>
               <Button onClick={handleDelete} text="Delete" />
               <Button onClick={handleUpload} text="Submit" />
