@@ -34,8 +34,6 @@
 | POST http://localhost:8080/document  | Post a document for a user        | - id<br>- token<br>- document_type_id<br>- document_path |
 | GET http://localhost:8080/document   | Get all documents for a user      | - id<br>- token                    |
 | GET http://localhost:8080/document/types | Get all document types           |                                   |
-| GET http://localhost:8080/document/get | Get a specific document for a user | - id<br>- token<br>- document_id   |
-| DEL http://localhost:8080/document   | Delete a document for a user      | - id<br>- token<br>- document_id   |
 
 ## 🧑‍💼 Banker
 
