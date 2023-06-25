@@ -28,7 +28,8 @@ CREATE DATABASE Conso_DB;
 exit;
 ```
 
-Now you have to create the connection to the database 🔗 To do so, you need to create a folder called "database" in the conso-back directory, and add a file named "connection.js" in this conso-back/database directory. In this file, you need to write the following lines: 
+Now you have to create the connection to the database 🔗 To do so, you need to rename the file **conso-back/database/connectionEXAMPLE** to **connection.js**. 
+In this file, you should find this:
 
 
 ```javascript
