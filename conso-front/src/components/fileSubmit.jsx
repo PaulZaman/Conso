@@ -1,13 +1,38 @@
 /* eslint-disable react/prop-types */
 import "../style/fileSubmit.css";
 import Button from "../components/button";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { storage } from "../config/firebase";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 import api_link from "../constants";
 
 export default function FileUploader({ item }) {
+  useEffect(() => {
+    const getInfo = async () => {
+      fetch(`${api_link}/document/get`, {
+        method: "GET",
+        body: JSON.stringify({
+          id: localStorage.getItem("user_id"),
+          token: localStorage.getItem("token"),
+          document_type_id: item.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response data
+          console.log(data);
+        })
+        .catch((error) => {
+          // Handle any errors that occur during the request
+          console.error(error);
+        });
+    };
+    getInfo();
+  }, []);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileChange = (e) => {
@@ -46,7 +71,9 @@ export default function FileUploader({ item }) {
       });
     }
   };
-
+  const handleDeleteServer = () => {
+    const desertRef = ref(storage, selectedFile.name);
+  };
   const handleDelete = () => {
     setSelectedFile(null);
     const fileInput = document.getElementById("file-input");
