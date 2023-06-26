@@ -6,7 +6,7 @@ const { authenticate } = require('../routes/auth');
 const { CreateLoanApplication } = require('../controllers/LoanController');
 
 // get a user
-router.get('/', authenticate, getUser);
+router.post('/', authenticate, getUser);
 
 // Create a new user
 router.post('/create', createUser);
@@ -24,9 +24,9 @@ router.post('/update', authenticate, updateUser);
 router.post('/apply', authenticate, CreateLoanApplication);
 
 // Get all loan applications of a user
-router.get('/applications', authenticate, getUserApplications);
+router.post('/applications', authenticate, getUserApplications);
 
 // Is the user a banker ?
-router.get('/isBanker', authenticate, userIsBanker);
+router.post('/isBanker', authenticate, userIsBanker);
 
 module.exports = router;

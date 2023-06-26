@@ -13,7 +13,7 @@ router.post('/create', createBanker);
 router.delete('/delete', authenticate, deleteBanker);
 
 // get applications for a banker
-router.get('/applications', authenticate, getApplications)
+router.post('/applications', authenticate, getApplications)
 
 // make an offer for an application
 router.post('/offer', authenticate, makeOffer)
