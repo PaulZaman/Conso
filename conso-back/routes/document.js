@@ -14,10 +14,10 @@ router.post('/', authenticate, postDocumentUser);
 router.get('/types', getDocumentTypes);
 
 // Get all documents for a user
-router.get('/', authenticate, getDocumentsUser);
+router.post('/', authenticate, getDocumentsUser);
 
 // Get a specific document for a user
-router.get('/get', authenticate, getDocumentUser);
+router.post('/get', authenticate, getDocumentUser);
 
 // Delete a document
 router.delete('/', authenticate, deleteDocument);
