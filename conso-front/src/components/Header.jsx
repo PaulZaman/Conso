@@ -32,9 +32,13 @@ export default function Header() {
       </a>
       <a href="/loan_simulator">Estimer ma capacité d'emprunt</a>
       <a href="/about">Qui sommes nous ?</a>
-      <a className="link_app" href="/loan_application">
-        Déposer ma demande de prêt
-      </a>
+      {loggedIn ? (
+        <a className="link_app" onClick={() => (window.location.href = '/loan_visualization')}>
+          Visualiser mes demandes  
+        </a>
+      ) : (<a className="link_app" href="/banksAvailable">
+      See banks
+    </a>)}
       {loggedIn ? (
       <img className="profileLogo" src={profileLogo} onClick={() => (window.location.href = '/profile')}></img>
       ) : (

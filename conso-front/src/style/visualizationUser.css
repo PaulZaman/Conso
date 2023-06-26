@@ -1,0 +1,19 @@
+
+
+.visualizationCard {
+    background: #f2f4f5;
+    border-radius: 1rem;
+    display: flex;
+    justify-content: space-around;
+    padding: 1rem;
+    border : 5px solid;
+}
+
+.link {
+    color: #9E44E4;
+}
+
+.link:hover {
+    color: black
+}
+

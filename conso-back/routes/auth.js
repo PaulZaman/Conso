@@ -75,7 +75,6 @@ async function authenticate(req, res, next) {
 	next();
 	return;
 	const { token, id } = req.body;
-
 	if (!token) {
 		// If there is no token, send an unauthorized response
 		return res

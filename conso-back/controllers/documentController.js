@@ -87,4 +87,65 @@ async function getDocumentsUser(req, res) {
 	}
 }
 
+<<<<<<< HEAD
 module.exports = { getDocumentTypes, postDocumentUser, getDocumentsUser }
+=======
+async function getDocumentUser(req, res) {
+	try {
+		const { id, document_type_id } = req.body;
+		const user = await User.findByPk(id);
+
+		// Check if user exists
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		// Get the document for the user
+		const doc = await Document.findOne({ where: { user_id: id, document_type_id } })
+
+		if (!doc) {
+			return res.status(404).json({ message: 'Document not found' });
+		}
+
+		res.status(200).json(doc);
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error retrieving document' });
+	}
+}
+
+async function deleteDocument(req, res) {
+	try {
+		const { id, document_type_id } = req.body;
+		const user = await User.findByPk(id);
+
+		// Check if user exists
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		// Get the document for the user
+		const doc = await Document.findOne({ where: { user_id: id, document_type_id } })
+		if (!doc) {
+			return res.status(404).json({ message: 'Document not found' });
+		}
+		if (doc.document_path) {
+			// Delete the document
+			await doc.destroy();
+		}
+
+		res.status(200).json({ message: 'Document deleted successfully' });
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error deleting document' });
+	}
+}
+
+
+
+
+
+module.exports = { getDocumentTypes, postDocumentUser, getDocumentsUser, getDocumentUser, deleteDocument }
+>>>>>>> 6d5dde25549c69f3142c479d755c3c74b2e3191b
