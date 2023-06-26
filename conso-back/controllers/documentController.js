@@ -3,12 +3,12 @@
 const Document = require('../models/DocumentModel');
 const User = require('../models/UserModel');
 const DocumentType = require('../models/DocumentTypeModel');
+const Banker = require('../models/BankerModel');
 
 
 // Get all documentTypes
 async function getDocumentTypes(req, res) {
 	try {
-
 		const documentTypes = await DocumentType.findAll();
 		res.status(200).json(documentTypes);
 	} catch (error) {
@@ -26,6 +26,12 @@ async function postDocumentUser(req, res) {
 		// Check if user exists
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
+		}
+
+		// check if user is not a banker
+		const banker = await Banker.findOne({ where: { user_id: id } });
+		if (banker) {
+			return res.status(403).json({ message: 'Bankers cannot upload documents' });
 		}
 
 		// Check if document type exists
@@ -80,7 +86,5 @@ async function getDocumentsUser(req, res) {
 		res.status(500).json({ message: 'Error retrieving documents' });
 	}
 }
-
-
 
 module.exports = { getDocumentTypes, postDocumentUser, getDocumentsUser }
