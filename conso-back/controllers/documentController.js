@@ -87,9 +87,6 @@ async function getDocumentsUser(req, res) {
 	}
 }
 
-<<<<<<< HEAD
-module.exports = { getDocumentTypes, postDocumentUser, getDocumentsUser }
-=======
 async function getDocumentUser(req, res) {
 	try {
 		const { id, document_type_id } = req.body;
@@ -148,4 +145,3 @@ async function deleteDocument(req, res) {
 
 
 module.exports = { getDocumentTypes, postDocumentUser, getDocumentsUser, getDocumentUser, deleteDocument }
->>>>>>> 6d5dde25549c69f3142c479d755c3c74b2e3191b

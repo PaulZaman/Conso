@@ -5,12 +5,7 @@ import { useState, useEffect } from "react";
 import "../style/Profile.css";
 import Button from "../components/button";
 import apiLink from "../constants";
-<<<<<<< HEAD
-import "../style/LoanApplication.css";
-=======
 import authentificate_user from "../authentification";
-
->>>>>>> 6d5dde25549c69f3142c479d755c3c74b2e3191b
 
 export default function Profile() {
   const [firstName, setFirstName] = useState("");
@@ -21,9 +16,6 @@ export default function Profile() {
   const [documentTypes, setDocumentTypes] = useState({});
 
   useEffect(() => {
-<<<<<<< HEAD
-    console.log("yes");
-=======
     const authenticateUser = async () => {
       let res = await authentificate_user();
       if (res === false) {
@@ -31,7 +23,6 @@ export default function Profile() {
       }
     };
     authenticateUser();
->>>>>>> 6d5dde25549c69f3142c479d755c3c74b2e3191b
     const getInfo = async () => {
       fetch(`${apiLink}/user/get`, {
         method: "POST",
