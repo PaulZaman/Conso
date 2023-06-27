@@ -109,7 +109,7 @@ async function initDB() {
 		bank_id: 2,
 		amount: 2000,
 		tenure: 24,
-		status: 'pending',
+		status: 'refused',
 	});
 	LoanApplication.create({
 		user_id: 1,

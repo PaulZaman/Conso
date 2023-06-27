@@ -9,7 +9,7 @@ const Banker = require('../models/BankerModel');
 
 async function createUser(req, res) {
 	try {
-		const { firstname, lastname, dob, email, password, profile_image_path = "", } = req.body;
+		const { firstname, lastname, dob, email, password, profile_image_path = "", salary = "" } = req.body;
 		// check if the user is at least 18 years old
 		const today = new Date();
 		const birthDate = new Date(dob);
@@ -23,7 +23,7 @@ async function createUser(req, res) {
 		}
 
 		// Create the user using the User model
-		const user = await User.create({ firstname, lastname, dob, email, password, is_verified: false, profile_image_path });
+		const user = await User.create({ firstname, lastname, dob, email, password, is_verified: false, profile_image_path, salary });
 
 		// Send a verification email to the user
 		sendVerificationMail(user.email, user.id);
