@@ -1,6 +1,21 @@
 .applications {
-    width: 50%;
     background: #f2f4f5;
     border-radius: 1rem;
     box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2), 0 18px 30px 0 rgba(0, 0, 0, 0.19);
+    padding: 0.5rem;
+    margin-bottom: 1rem;
+    margin-right: 4rem;
+    margin-left: 4rem
+}
+
+h1 {
+    color: white;
+}
+
+.applications h1 {
+    color: black;
+}
+
+.applications p {
+    color: black
 }
