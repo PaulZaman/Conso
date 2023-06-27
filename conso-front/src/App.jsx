@@ -11,6 +11,7 @@ import SignIn from "./pages/AccountCreation";
 import Profile from "./pages/Profile";
 import BanksAvailable from "./pages/BanksAvailable";
 import "./style/App.css";
+import LoanVisualizationBanker from "./pages/LoanVisualizationBanker";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
           <Route path="/signin" element={<SignIn />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/banksAvailable" element={<BanksAvailable />} />
+          <Route path="/loanBanker" element={<LoanVisualizationBanker />} />
           <Route path="*" element={<Error404 />} />
         </Routes>
       </BrowserRouter>

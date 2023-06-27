@@ -1,23 +1,22 @@
-# Conso App
+# Conso App ✨
 
 
-## Description
+This is an application to manage your loan applications. It is composed of a backend and a frontend. The backend is made with Express.js and Sequelize, and the frontend with ReactJS and Vite. It puts in contact bankers and users to get the most attractive loan offers. It is a school project. 🏦💼💻
 
-This is an application to manage your loan applications. It is composed of a backend and a frontend. The backend is made with Expressjs and sequelize, and the frontend with ReactJS and Vite. It puts in contact bankers and users to get the most attractive loan offers. It is a school project.
+## Installation and Usage 🚀
 
-## Installation and Usage
+Before running the application, there are a few steps you need to follow.
 
-Before, running the application, there are a few steps you need to follow.
+### Backend ⚙️
 
-### Backend
-
-Navigate to the backend
+Navigate to the backend 📍
 
 ```bash
 cd conso-back
+
 ```
 
-You first need to create the database. To do so, you need to have mysql installed on your computer. Then, you need to create a database named "Conso_DB".You can do so by running the following commands:
+You first need to create the database 🗄️ To do so, you need to have mysql installed on your computer. Then, you need to create a database named "Conso_DB".You can do so by running the following commands:
 
 ```bash
 mysql -u root -p
@@ -29,7 +28,8 @@ CREATE DATABASE Conso_DB;
 exit;
 ```
 
-Now you have to create the connection to the database. To do so, you need to create a folder called "database" in the conso-back directory, and add a file named "connection.js" in this conso-back/database directory. In this file, you need to write the following lines:
+Now you have to create the connection to the database 🔗 To do so, you need to rename the file **conso-back/database/connectionEXAMPLE** to **connection.js**. 
+In this file, you should find this:
 
 
 ```javascript
@@ -44,7 +44,7 @@ const sequelize = new Sequelize('Conso_DB', 'USER', 'PASSWORD', {
 
 module.exports = sequelize; 
 ```
-Do not forget to replace the "USER" and "PASSWORD" with your own mysql user and password. (USER is generally "root" and PASSWORD is the password you chose when you installed mysql)
+Do not forget to replace the "USER" and "PASSWORD" with your own mysql user and password. (USER is generally "root" and PASSWORD is the password you chose when you installed mysql) 🔒🔑
 
 Now that your database is created, and that your connection is established, you can initialize the backend. To do so, run the following commands (in the same directory /conso-back):
 
@@ -55,9 +55,9 @@ node syncdb.js
 node app.js
 ```
 Wait a few seconds, the second command takes a bit of time.
-Now the backend is running. You can test it by going to http://localhost:8080/. You should see a "Hello World!" message
+Now the backend is running. You can test it by going to http://localhost:8080/. You should see a "Hello World!" message 👋🌍
 
-### Frontend
+### Frontend 🎨
 
 Now you can open a new terminal, to launch the frontend, from the main directory, run the following commands:
 
@@ -71,12 +71,18 @@ yarn install
 yarn dev
 ```
 
-Now you are all set ! You can access the website on the url displayed in the terminal. 
+Now you are all set ! You can access the website on the url displayed in the terminal. 🌐✨
+
+## Login credentials 🔐
+
 The default user is a client, you can log in with the following credentials:
 
 ```bash
-email:
-admin@gmail.com
-password:
-admin
+📧 Email: admin@gmail.com
+🔒 Password: admin
+```
+
+```bash
+📧 Email: admin-banker@gmail.com
+🔒 Password: admin
 ```

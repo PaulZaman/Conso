@@ -20,7 +20,7 @@ docs = [
 	{ nametype: "Proof of loan payment" },
 ];
 
-async function add_Info_to_DB() {
+async function initDB() {
 	// create the tables
 	// Synchronize the models with the database
 	await sequelize
@@ -51,17 +51,19 @@ async function add_Info_to_DB() {
 		is_verified: true,
 	});
 
-	// Create 10 random users
-	for (let i = 0; i < 10; i++) {
-		User.create({
-			firstname: faker.name.firstName(),
-			lastname: faker.name.lastName(),
-			email: faker.internet.email(),
-			password: faker.internet.password(),
-			dob: faker.date.past(),
-			is_verified: true,
-		});
-	}
+	// create admin banker
+	User.create({
+		firstname: 'banker',
+		lastname: 'banker',
+		email: 'admin-banker@gmail.com',
+		password: 'admin',
+		dob: '1999-01-01',
+		is_verified: true,
+	});
+
+
+
+
 
 	// Create 10 random banks
 	for (let i = 0; i < 10; i++) {
@@ -73,6 +75,24 @@ async function add_Info_to_DB() {
 		Bank.create({
 			name: faker.company.companyName(),
 			documents_required: documents_required
+		});
+	}
+
+	// create banker Admin
+	Banker.create({
+		user_id: 2,
+		bank_id: 1,
+	});
+
+	// Create 10 random users
+	for (let i = 0; i < 10; i++) {
+		User.create({
+			firstname: faker.name.firstName(),
+			lastname: faker.name.lastName(),
+			email: faker.internet.email(),
+			password: faker.internet.password(),
+			dob: faker.date.past(),
+			is_verified: true,
 		});
 	}
 
@@ -99,7 +119,12 @@ async function add_Info_to_DB() {
 		status: 'approved',
 	});
 
+
+
+
+
+
 	console.log('Done Adding Info to DB');
 }
 
-add_Info_to_DB();
+initDB();

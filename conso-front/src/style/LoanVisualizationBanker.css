@@ -1,0 +1,6 @@
+.applications {
+    width: 50%;
+    background: #f2f4f5;
+    border-radius: 1rem;
+    box-shadow: 0 12px 20px 0 rgba(0, 0, 0, 0.2), 0 18px 30px 0 rgba(0, 0, 0, 0.19);
+}

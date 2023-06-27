@@ -1,0 +1,12 @@
+.applicationBanker {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    border-radius: 1rem;;
+}
+
+.applicationBanker:hover {
+    background-color:  #9E44E4;
+}

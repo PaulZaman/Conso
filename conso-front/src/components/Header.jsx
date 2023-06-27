@@ -31,7 +31,7 @@ export default function Header() {
         />
       </a>
       <a href="/loan_simulator">Estimer ma capacité d'emprunt</a>
-      <a href="/about">Qui sommes nous ?</a>
+      <a href="/loanBanker">Qui sommes nous ?</a>
       {loggedIn ? (
         <a className="link_app" onClick={() => (window.location.href = '/loan_visualization')}>
           Visualiser mes demandes  

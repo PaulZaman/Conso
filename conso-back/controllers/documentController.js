@@ -3,12 +3,12 @@
 const Document = require('../models/DocumentModel');
 const User = require('../models/UserModel');
 const DocumentType = require('../models/DocumentTypeModel');
+const Banker = require('../models/BankerModel');
 
 
 // Get all documentTypes
 async function getDocumentTypes(req, res) {
 	try {
-
 		const documentTypes = await DocumentType.findAll();
 		res.status(200).json(documentTypes);
 	} catch (error) {
@@ -26,6 +26,12 @@ async function postDocumentUser(req, res) {
 		// Check if user exists
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
+		}
+
+		// check if user is not a banker
+		const banker = await Banker.findOne({ where: { user_id: id } });
+		if (banker) {
+			return res.status(403).json({ message: 'Bankers cannot upload documents' });
 		}
 
 		// Check if document type exists
@@ -81,6 +87,61 @@ async function getDocumentsUser(req, res) {
 	}
 }
 
+async function getDocumentUser(req, res) {
+	try {
+		const { id, document_type_id } = req.body;
+		const user = await User.findByPk(id);
+
+		// Check if user exists
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		// Get the document for the user
+		const doc = await Document.findOne({ where: { user_id: id, document_type_id } })
+
+		if (!doc) {
+			return res.status(404).json({ message: 'Document not found' });
+		}
+
+		res.status(200).json(doc);
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error retrieving document' });
+	}
+}
+
+async function deleteDocument(req, res) {
+	try {
+		const { id, document_type_id } = req.body;
+		const user = await User.findByPk(id);
+
+		// Check if user exists
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+
+		// Get the document for the user
+		const doc = await Document.findOne({ where: { user_id: id, document_type_id } })
+		if (!doc) {
+			return res.status(404).json({ message: 'Document not found' });
+		}
+		if (doc.document_path) {
+			// Delete the document
+			await doc.destroy();
+		}
+
+		res.status(200).json({ message: 'Document deleted successfully' });
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error deleting document' });
+	}
+}
 
 
-module.exports = { getDocumentTypes, postDocumentUser, getDocumentsUser }
+
+
+
+module.exports = { getDocumentTypes, postDocumentUser, getDocumentsUser, getDocumentUser, deleteDocument }

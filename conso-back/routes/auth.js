@@ -73,12 +73,18 @@ router.post('/', async (req, res) => {
 async function authenticate(req, res, next) {
 	// Check if the request contains a valid token
 	const { token, id } = req.body;
-
 	if (!token) {
 		// If there is no token, send an unauthorized response
 		return res
 			.status(401)
 			.json({ message: 'Unauthorized, provide a token for this route' });
+	}
+
+	if (!id) {
+		// If there is no id, send an unauthorized response
+		return res
+			.status(401)
+			.json({ message: 'Unauthorized, provide an id for this route (call it `id` and not `user_id`' });
 	}
 
 	try {

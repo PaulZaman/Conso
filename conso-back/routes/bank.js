@@ -22,9 +22,9 @@ router.delete('/delete/:id', authenticate, deleteBank);
 router.put('/update/:id', authenticate, updateBank);
 
 // get documents required for a bank
-router.get('/docs', getDocsRequired);
+router.post('/docs', getDocsRequired);
 
 // get all banks with their documents required
-router.get('/', getBanks);
+router.post('/', getBanks);
 
 module.exports = router;
