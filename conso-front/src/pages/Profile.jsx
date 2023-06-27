@@ -41,7 +41,7 @@ export default function Profile() {
           // Handle any errors that occur during the request
           console.log(error);
         });
-      /*
+      
       fetch(`${apiLink}/user/get`, {
         method: "POST",
         body: JSON.stringify({
@@ -65,7 +65,7 @@ export default function Profile() {
         .catch((error) => {
           // Handle any errors that occur during the request
           console.log(error);
-        });*/
+        });
     };
     getInfo();
   }, []);
