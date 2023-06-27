@@ -183,6 +183,36 @@ async function refuseOffer(req, res) {
 	}
 }
 
+async function getUserFromApplication(req, res) {
+	try {
+		const { id, loan_application_id } = req.body;
+		// find banker
+		const banker = await Banker.findOne({ where: { user_id: id } });
+		if (!banker) {
+			return res.status(404).json({ message: 'id provided is not the one of a banker' });
+		}
+		// find application
+		const application = await LoanApplication.findByPk(loan_application_id);
+		if (!application) {
+			return res.status(404).json({ message: 'Application not found' });
+		}
+		// check if banker is from the same bank as the application
+		if (banker.bank_id !== application.bank_id) {
+			return res.status(500).json({ message: 'You cannot get the user from this application, this application was not for your bank' });
+		}
+		// find user
+		const user = await User.findByPk(application.user_id);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		res.status(200).json({ message: 'User found', user });
+	}
+	catch (e) {
+		res.status(500).json({ message: 'Error getting user from application' });
+	}
+}
+
+
 
 module.exports = {
 	createBanker,
@@ -190,4 +220,5 @@ module.exports = {
 	getApplications,
 	makeOffer,
 	refuseOffer,
+	getUserFromApplication,
 };

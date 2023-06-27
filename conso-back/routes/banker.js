@@ -3,7 +3,7 @@
 const express = require('express');
 const router = express.Router();
 const { authenticate } = require('../routes/auth');
-const { createBanker, deleteBanker, getApplications, makeOffer, refuseOffer } = require('../controllers/bankerController');
+const { createBanker, deleteBanker, getApplications, makeOffer, refuseOffer, getUserFromApplication } = require('../controllers/bankerController');
 
 
 // create a new banker
@@ -20,5 +20,8 @@ router.post('/offer', authenticate, makeOffer)
 
 // refuse an offer for an application
 router.post('/refuse', authenticate, refuseOffer)
+
+// get user from application
+router.post('/user', authenticate, getUserFromApplication)
 
 module.exports = router;
