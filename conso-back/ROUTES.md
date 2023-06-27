@@ -18,7 +18,7 @@
 | POST http://localhost:8080/user              | Get a user                  | - id<br>- token                                                                                                                                                                                          |
 | POST http://localhost:8080/user/apply        | Post a loan application     | - id<br>- token<br>- bank_id<br>- amount<br>- tenure                                                                                                                                                     |
 | POST http://localhost:8080/user/applications | Get all loan applications   | - id<br>- token                                                                                                                                                                                          |
-| POST http://localhost:8080/user/isBanker     | Check if a user is a banker | - id<br>- token                                                                                                                                                                                          |
+| POST http://localhost:8080/user/isBanker     | Check if a user is a banker | - id<br>- token            |
 
 ## 🏦 Bank
 
@@ -34,8 +34,8 @@
 | POST http://localhost:8080/document      | Post a document for a user         | - id<br>- token<br>- document_type_id<br>- document_path |
 | POST http://localhost:8080/document      | Get all documents for a user       | - id<br>- token                                          |
 | GET http://localhost:8080/document/types | Get all document types             |                                                          |
-| POST http://localhost:8080/document/get  | Get a specific document for a user | - id<br>- token<br>- document_id                         |
-| DEL http://localhost:8080/document       | Delete a document for a user       | - id<br>- token<br>- document_id                         |
+| POST http://localhost:8080/document/get  | Get a specific document for a user | - id<br>- token<br>- document_type_id                         |
+| DEL http://localhost:8080/document       | Delete a document for a user       | - id<br>- token<br>- document_type_id                         |
 
 ## 🧑‍💼 Banker
 
