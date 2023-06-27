@@ -27,4 +27,5 @@ router.post('/docs', getDocsRequired);
 // get all banks with their documents required
 router.post('/', getBanks);
 
+
 module.exports = router;

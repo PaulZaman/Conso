@@ -24,7 +24,7 @@
 
 | Route                                | Description                          | Required Body |
 | ------------------------------------ | ------------------------------------ | ------------- |
-| POST http://localhost:8080/bank      | Get all banks                        |               |
+| POST http://localhost:8080/bank      | Get all banks or 1 bank              | OPTIONNEL: -bank_id <br> Si l'id de la banque n'est pas spécifié, cette route renvoi toutes les banques              |
 | POST http://localhost:8080/bank/docs | Get required documents for all banks | - bank_id     |
 
 ## 📄 Document

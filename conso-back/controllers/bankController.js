@@ -96,28 +96,52 @@ async function getDocsRequired(req, res) {
 }
 
 async function getBanks(req, res) {
-	try {
-		// find all banks
-		const banks = await Bank.findAll();
+	const { bank_id } = req.body;
+	if (bank_id != undefined) {
+		getBank(req, res);
+	}
+	else {
+		try {
+			// find all banks
+			const banks = await Bank.findAll();
 
 
-		const documentsRequired = banks.map(async (bank) => {
-			let bank_ids = Object.keys(bank.documents_required);
-			let doc = await DocumentType.findAll({
-				where: { id: bank_ids },
+			const documentsRequired = banks.map(async (bank) => {
+				let bank_ids = Object.keys(bank.documents_required);
+				let doc = await DocumentType.findAll({
+					where: { id: bank_ids },
+				});
+				return doc;
 			});
-			return doc;
-		});
 
-		console.log(documentsRequired)
+			console.log(documentsRequired)
 
 
-		res.status(200).json({ message: 'Banks retrieved successfully', banks, documentsRequired });
-	} catch (error) {
-		console.log(error);
-		res.status(500).json({ message: 'Error retrieving banks' });
+			res.status(200).json({ message: 'Banks retrieved successfully', banks, documentsRequired });
+		} catch (error) {
+			console.log(error);
+			res.status(500).json({ message: 'Error retrieving banks' });
+		}
 	}
 }
+
+async function getBank(req, res) {
+	try {
+		const { bank_id } = req.body;
+		// find the bank
+		const bank = await Bank.findByPk(bank_id);
+		if (!bank) {
+			return res.status(404).json({ message: 'Bank not found' });
+		}
+		res.status(200).json({ message: 'Bank retrieved successfully', bank });
+	}
+	catch (error) {
+		console.log(error);
+		res.status(500).json({ message: 'Error retrieving bank' });
+
+	}
+}
+
 
 
 
