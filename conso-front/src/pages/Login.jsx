@@ -35,7 +35,7 @@ function LoginForm() {
     if (!email.match(emailPattern)) {
       setEmailError("Please enter a valid email address.");
       return;
-    } else {
+    } else { 
       setEmailError("");
     }
 

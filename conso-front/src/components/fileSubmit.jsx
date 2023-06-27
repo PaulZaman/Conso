@@ -97,7 +97,7 @@ export default function FileUploader({ item }) {
 
   const uploadNewFile = () => {
     const storageRef = ref(storage, selectedFile.name);
-
+    handleDelete();
     uploadBytes(storageRef, selectedFile)
       .then(() => {
         getDownloadURL(storageRef)
@@ -200,6 +200,39 @@ export default function FileUploader({ item }) {
       fileInput.value = ""; // Réinitialise la valeur du champ de sélection de fichier
     }
   };
+  const handleOpenLink = () => {
+    try {
+      fetch(`${api_link}/document/get`, {
+        method: "POST",
+        body: JSON.stringify({
+          id: localStorage.getItem("user_id"),
+          token: localStorage.getItem("token"),
+          document_type_id: item.id,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data.document_path);
+          window.open(data.document_path, "_blank");
+        })
+        .catch(() => {
+          console.log("error");
+        });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const handleDownload = () => {
+    if (documentName) {
+      const link = document.createElement("a");
+      link.href = documentName;
+      link.setAttribute("download", "");
+      link.click();
+    }
+  };
 
   return (
     <div>
@@ -212,11 +245,22 @@ export default function FileUploader({ item }) {
             setSelectedFile(e.target.files[0]);
           }}
         />
+        <div className="buttonGroup">
+          {selectedFile && <Button onClick={handleUpload} text="Transférer" />}
+          {selectedFile && <Button onClick={handleDelete} text="Supprimer" />}
+        </div>
         {documentName && <p>Votre fichier : {documentName}</p>}
         <div className="buttonGroup">
-          <Button onClick={handleUpload} text="Upload" />
-          <Button onClick={handleDelete} text="Remove" />
-          <Button onClick={handleDeleteServer} text="Delete" />
+          {documentName && (
+            <Button
+              onClick={handleDeleteServer}
+              text="Supprimer de mon dossier"
+            />
+          )}
+          {documentName && <Button onClick={handleOpenLink} text="Ouvrir" />}
+          {documentName && (
+            <Button onClick={handleDownload} text="Télécharger" />
+          )}
         </div>
       </div>
     </div>
