@@ -79,7 +79,11 @@ export default function LoanVisualization() {
     <>
       <Header />
       <div>
+        <h1>Vos demandes de prêts</h1>
+        <div className="yeu">
         <Button className="test_____" text="Nouvelle Demande" />
+
+        </div>
 
         <h1>Approved Applications</h1>
         <div className="labels">

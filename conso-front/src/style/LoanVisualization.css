@@ -7,6 +7,13 @@ li {
 
 .test_____{
     text-align: center;
+    align-self: center;
+}
+
+.yeu {
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 3rem;
 }
 
 .labels {
