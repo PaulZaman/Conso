@@ -66,8 +66,10 @@ export default function Profile() {
           // Handle any errors that occur during the request
           console.log(error);
         });
+        
     };
     getInfo();
+    
   }, []);
 
   const handleUpdate = async () => {
