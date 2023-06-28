@@ -64,7 +64,7 @@ function LoginForm() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.result);
+        console.log("banker2",data.result);
         setIsBanker(data.result);
       })
       .catch((error) => {
@@ -92,15 +92,29 @@ function LoginForm() {
         // Store the token and user_id in local storage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user_id", data.user_id);
-
         isUserBanker();
-        if (data.token && !isBanker) {
-          window.location.href = "/profile";
-        }
-        
-        if (data.token && isBanker) {
+
+        setTimeout(function() {
+          
+        if (data.token && isBanker===true) {
+          console.log("bg");
           window.location.href = "/loanBanker";
         }
+        if (data.token && isBanker===false) {
+          console.log("bg2");
+
+          //window.location.href = "/loanBanker";
+        }
+        }, 2000);
+        //console.log("banker",isBanker);
+
+        /*
+        if (data.token && isBanker===true) {
+          window.location.href = "/profile";
+        }
+        if (data.token && isBanker===false) {
+          window.location.href = "/loanBanker";
+        }*/
         if (data.message === "User not found") {
           setEmailError("User not found");
         }

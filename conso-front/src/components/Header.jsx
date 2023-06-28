@@ -4,17 +4,45 @@ import Logo from "../asset/logo.png";
 import authentificate_user from "../authentification";
 import Button from "./button";
 import profileLogo from '../asset/profile.png'
+import apiLink from "../constants";
+
 
 export default function Header() {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isBanker, setIsBanker] = useState("");
+
   useEffect(() => {
     const authenticateUser = async () => {
       let res = await authentificate_user();
-      setLoggedIn(res);
+      setLoggedIn(res);   
     };
     authenticateUser();
+    
+  const isUserBanker = () => {
+    fetch(`${apiLink}/user/isBanker`, {
+      method: "POST",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+        token: localStorage.getItem("token"),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.result);
+        setIsBanker(data.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  isUserBanker();
   }, []);
 
+
+  
   const handleLogout = () => {
     localStorage.clear();
     window.location.href = "/home";
@@ -31,15 +59,18 @@ export default function Header() {
         />
       </a>
       <a href="/loan_simulator">Estimer ma capacité d'emprunt</a>
-      <a href="/loanBanker">Qui sommes nous ?</a>
-      {loggedIn ? (
+      <a href="/about">Qui sommes nous ?</a>
+      {loggedIn && !isBanker ? (
         <a className="link_app" onClick={() => (window.location.href = '/loan_visualization')}>
           Visualiser mes demandes  
         </a>
-      ) : (<a className="link_app" href="/banksAvailable">
+      ) : loggedIn & isBanker ? (<a className="link_app" href="/loanBanker">
       See banks
-    </a>)}
-      {loggedIn ? (
+    </a>) : (<a className="link_app" onClick={() => (window.location.href = '/loan_visualization')}>
+          Visualiser mes demandes  
+        </a>
+      )}
+      {loggedIn? (
       <img className="profileLogo" src={profileLogo} onClick={() => (window.location.href = '/profile')}></img>
       ) : (
         <Button onClick={() => (window.location.href = '/login')} text="Se connecter" />
