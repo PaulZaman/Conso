@@ -1,15 +1,15 @@
 .app {
-    padding: 1rem;
+  padding: 1rem;
 }
 
 @font-face {
-    font-family: 'CustomFont';
-    src: url('/fonts/ABeeZee-Regular.ttf.ttf') format('truetype');
+  font-family: "CustomFont";
+  src: url("../fonts/ABeeZee-Regular.ttf") format("truetype");
 }
 
 * {
-    font-family: 'CustomFont', sans-serif;
-    font-size: 22px;
-    padding:0px;
-    margin:0px;
+  font-family: "CustomFont", sans-serif;
+  font-size: 22px;
+  padding: 0px;
+  margin: 0px;
 }

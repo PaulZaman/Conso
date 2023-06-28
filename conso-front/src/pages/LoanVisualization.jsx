@@ -86,25 +86,19 @@ export default function LoanVisualization() {
         </div>
 
         <h1>Approved Applications</h1>
-        <div className="labels">
-          <p>ID</p>
-          <p>Banque</p>
-          <p>Amount</p>
-          <p>Tenure</p>
-          <p>Date</p>
-        </div>
+
         <ul>
           {approvedApplications.map((application, index) => (
             <li key={index} onClick={() => handleApplicationClick(application)}>
               <VisualizationUser
-                applicationID={application.id}
-                bank={application.bank_id}
+                name={application.name}
                 status={application.status}
                 amount={application.amount}
                 tenure={application.tenure}
-                date={new Date(application.date_posted).toLocaleDateString("en-GB")}
+                date={new Date(application.date_posted).toLocaleDateString(
+                  "en-GB"
+                )}
               />
-             
             </li>
           ))}
         </ul>
@@ -126,7 +120,9 @@ export default function LoanVisualization() {
                 status={application.status}
                 amount={application.amount}
                 tenure={application.tenure}
-                date={new Date(application.date_posted).toLocaleDateString("en-GB")}
+                date={new Date(application.date_posted).toLocaleDateString(
+                  "en-GB"
+                )}
               />
             </li>
           ))}
@@ -149,12 +145,13 @@ export default function LoanVisualization() {
                 status={application.status}
                 amount={application.amount}
                 tenure={application.tenure}
-                date={new Date(application.date_posted).toLocaleDateString("en-GB")}
+                date={new Date(application.date_posted).toLocaleDateString(
+                  "en-GB"
+                )}
               />
             </li>
           ))}
         </ul>
-
       </div>
 
       <Footer />
