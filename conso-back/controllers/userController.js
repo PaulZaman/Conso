@@ -6,6 +6,7 @@ const Token = require('../models/TokenModel');
 const transporter = require('../email');
 const LoanApplications = require('../models/LoanApplicationModel');
 const Banker = require('../models/BankerModel');
+const Offer = require('../models/OfferModel');
 
 async function createUser(req, res) {
 	try {
@@ -248,6 +249,36 @@ async function userIsBanker(req, res) {
 	}
 }
 
+async function getOffer(req, res) {
+	const { id, loan_application_id } = req.body;
+	try {
+		// find the user
+		const user = await User.findByPk(id);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		// get the loan application
+		const loanApplication = await LoanApplications.findByPk(loan_application_id);
+		if (!loanApplication) {
+			return res.status(404).json({ message: 'Loan application not found' });
+		}
+		// check if the application approved
+		if (loanApplication.status !== 'approved') {
+			return res.status(200).json({ message: 'Loan application not approved' });
+		}
+		// get the offer
+		const offer = await Offer.findOne({ where: { loan_application_id } });
+		if (!offer) {
+			return res.status(404).json({ message: 'Offer not found' });
+		}
+		res.status(200).json({ message: 'Offer found', offer });
+	}
+	catch (error) {
+		console.log(error)
+		res.status(500).json({ message: 'Error getting offer' });
+	}
+}
+
 
 module.exports = {
 	createUser,
@@ -256,5 +287,6 @@ module.exports = {
 	validate,
 	getUser,
 	getUserApplications,
-	userIsBanker
+	userIsBanker,
+	getOffer
 };

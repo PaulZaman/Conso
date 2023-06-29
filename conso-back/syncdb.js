@@ -61,18 +61,7 @@ async function initDB() {
     is_verified: true,
   });
 
-  // Create 10 random banks
-  /*for (let i = 0; i < 10; i++) {
-    let n_required = Math.floor(Math.random() * 7) + 1;
-    let documents_required = {};
-    for (let j = 1; j < n_required; j++) {
-      documents_required[j] = true;
-    }
-    Bank.create({
-      name: faker.company.companyName(),
-      documents_required: documents_required,
-    });
-  }*/
+  // Create the main banks
   let n_required = Math.floor(Math.random() * 7) + 1;
   let documents_required = {};
   for (let j = 1; j < n_required; j++) {
