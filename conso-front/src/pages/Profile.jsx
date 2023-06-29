@@ -14,6 +14,7 @@ export default function Profile() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [documentTypes, setDocumentTypes] = useState({});
+  const [isBanker, setIsBanker] = useState({});
 
   useEffect(() => {
     // athentificate user
@@ -55,7 +56,6 @@ export default function Profile() {
         .then((response) => response.json())
         .then((data) => {
           // Handle the response data
-          console.log(data.user);
           setFirstName(data.user.firstname);
           setLastName(data.user.lastname);
           setDob(new Date(data.user.dob).toLocaleDateString("en-GB"));
@@ -69,9 +69,42 @@ export default function Profile() {
         
     };
     getInfo();
+
+    
+  const isUserBanker = () => {
+    fetch(`${apiLink}/user/isBanker`, {
+      method: "POST",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+        token: localStorage.getItem("token"),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setIsBanker(data.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  isUserBanker();
     
   }, []);
 
+
+  
+
+
+
+
+
+  const handleLogout = () => {
+    localStorage.clear();
+    window.location.href = "/home";
+  };
   const handleUpdate = async () => {
     fetch(`${apiLink}/user/update`, {
       method: "POST",
@@ -98,10 +131,19 @@ export default function Profile() {
       });
   };
 
+
+
   return (
     <>
       <Header />
-      <div className="uploadSection">
+      {isBanker? (
+      
+      <h1>YOOO</h1>
+      
+      ) : (
+
+
+        <div className="uploadSection">
         <h1 className="profileTitle">My Profile</h1>
         <div className="profileInformation">
           <div className="profileLabels">
@@ -154,7 +196,11 @@ export default function Profile() {
             </div>
           </div>
         </div>
+        <Button onClick={handleLogout} text="Log Out" />
+
       </div>
+
+      )}
       <Footer />
     </>
   );
