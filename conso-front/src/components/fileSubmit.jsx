@@ -233,6 +233,10 @@ export default function FileUploader({ item }) {
       link.click();
     }
   };
+  // Fonction pour décoder l'URL et remplacer les %20 par des espaces
+  const decodeURL = (url) => {
+    return decodeURIComponent(url.replace(/\+/g, " "));
+  };
 
   return (
     <div>
@@ -249,17 +253,25 @@ export default function FileUploader({ item }) {
           {selectedFile && <Button onClick={handleUpload} text="Transférer" />}
           {selectedFile && <Button onClick={handleDelete} text="Supprimer" />}
         </div>
-        {documentName && <p>Votre fichier : {documentName}</p>}
+        {documentName && (
+          <div>
+            Votre fichier :
+            <div className="buttonGroup">
+              <button onClick={handleOpenLink}>
+                {decodeURL(documentName)}
+              </button>
+            </div>
+          </div>
+        )}
         <div className="buttonGroup">
+          {documentName && (
+            <Button onClick={handleDownload} text="Télécharger" />
+          )}
           {documentName && (
             <Button
               onClick={handleDeleteServer}
               text="Supprimer de mon dossier"
             />
-          )}
-          {documentName && <Button onClick={handleOpenLink} text="Ouvrir" />}
-          {documentName && (
-            <Button onClick={handleDownload} text="Télécharger" />
           )}
         </div>
       </div>

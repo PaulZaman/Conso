@@ -1,18 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "../style/Login.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Button from "../components/button";
 import apiLink from "../constants";
 import authentificate_user from "../authentification";
-import { useEffect } from "react";
 
 function LoginForm() {
   useEffect(() => {
     const authenticateUser = async () => {
       let res = await authentificate_user();
       if (res === true) {
-        window.location.href = "/loan_application";
+        //window.location.href = "/loan_application";
       }
     };
     authenticateUser();
@@ -23,6 +22,7 @@ function LoginForm() {
   const [password, setPassword] = useState("password");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [isBanker, setIsBanker] = useState("");
 
   // Form validation and submission
   const validateForm = (e) => {
@@ -35,7 +35,7 @@ function LoginForm() {
     if (!email.match(emailPattern)) {
       setEmailError("Please enter a valid email address.");
       return;
-    } else { 
+    } else {
       setEmailError("");
     }
 
@@ -49,6 +49,33 @@ function LoginForm() {
 
     // Submit the form
     handleSubmission(email, password);
+  };
+
+  const isUserBanker = () => {
+    fetch(`${apiLink}/user/isBanker`, {
+      method: "POST",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+        token: localStorage.getItem("token"),
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if(data.result){
+          window.location.href = "/loanBanker";
+        }
+        else {
+          window.location.href = "/profile";
+        }
+        console.log("banker2",data.result);
+        setIsBanker(data.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // Handle form submission
@@ -66,16 +93,18 @@ function LoginForm() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response data
         console.log(data);
 
         // Store the token and user_id in local storage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user_id", data.user_id);
 
-        // Redirect to loan application page if login is successful
         if (data.token) {
-          window.location.href = "/loan_application";
+          isUserBanker();
+          //window.location.href = "/profile";
+        }
+        if (data.token && isBanker===false) {
+          //window.location.href = "/loanBanker";
         }
         if (data.message === "User not found") {
           setEmailError("User not found");
@@ -85,7 +114,6 @@ function LoginForm() {
         }
       })
       .catch((error) => {
-        // Handle any errors that occur during the request
         console.error(error);
       });
   };
@@ -125,7 +153,7 @@ function LoginForm() {
           </div>
 
           <p className="textLink">
-            Don`t have an account?{" "}
+            Dont have an account?{" "}
             <a className="signInLink" href="/signin">
               Sign in
             </a>
