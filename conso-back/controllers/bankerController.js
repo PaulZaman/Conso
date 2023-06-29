@@ -5,7 +5,7 @@ const User = require('../models/UserModel');
 const Bank = require('../models/BankModel');
 const LoanApplication = require('../models/LoanApplicationModel');
 const Offer = require('../models/OfferModel');
-const { where } = require('sequelize');
+const DocumentType = require('../models/DocumentTypeModel');
 
 async function createBanker(req, res) {
 	const { firstname, lastname, email, password, bank_id, dob, profile_image_path = "", is_verified = true } = req.body;
@@ -212,7 +212,49 @@ async function getUserFromApplication(req, res) {
 	}
 }
 
+async function getBankFromBanker(req, res) {
+	try {
+		const { id } = req.body;
+		// find banker
+		const banker = await Banker.findOne({ where: { user_id: id } });
+		if (!banker) {
+			return res.status(404).json({ message: 'Id provided is not the one of a banker' });
+		}
+		// find bank
+		const bank = await Bank.findByPk(banker.bank_id);
+		if (!bank) {
+			return res.status(404).json({ message: 'Bank not found' });
+		}
 
+		// find document types
+		const documentsRequired = bank.documents_required;
+		const documentTypes = await DocumentType.findAll();
+		const matchedDocumentTypes = [];
+
+		// find document types that match the documents required by the bank
+		for (const documentType of documentTypes) {
+			const documentTypeId = documentType.id;
+			if (documentsRequired.hasOwnProperty(documentTypeId.toString())) {
+				matchedDocumentTypes.push(documentType);
+			}
+		}
+
+		// remove createdAt and updatedAt fields from matched document types
+		for (const matchedDocumentType of matchedDocumentTypes) {
+			delete matchedDocumentType.dataValues.createdAt;
+			delete matchedDocumentType.dataValues.updatedAt;
+		}
+
+		// Replace documents_required field with matched document types
+		bank.documents_required = matchedDocumentTypes;
+
+		res.status(200).json({ message: 'Bank found', bank });
+	}
+	catch (e) {
+		console.log(e)
+		res.status(500).json({ message: 'Error getting bank from banker' });
+	}
+}
 
 module.exports = {
 	createBanker,
@@ -221,4 +263,5 @@ module.exports = {
 	makeOffer,
 	refuseOffer,
 	getUserFromApplication,
+	getBankFromBanker
 };

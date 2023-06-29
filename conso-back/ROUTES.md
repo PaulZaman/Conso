@@ -45,3 +45,4 @@
 | POST http://localhost:8080/banker/offer        | Make an offer for an application   | - id<br>- token<br>- loan_application_id<br>- interest_rate |
 | POST http://localhost:8080/banker/refuse       | Refuse an offer for an application | - id<br>- token<br>- loan_application_id                    |
 | POST http://localhost:8080/banker/user       | Get the user from an application | - id<br>- token<br>- loan_application_id                    |
+| POST http://localhost:8080/banker/bank      | Get the information from a banker | - id<br>- token<br>-    |
