@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../style/LoanSimulator.css"; // Ajout de la feuille de style
@@ -22,7 +22,7 @@ export default function LoanSimulator() {
   return (
     <>
       <Header />
-      <h1>Simuler ma capacité d'emprunt</h1>
+      <h1>Simuler ma capacité d&eapos;emprunt</h1>
       <div className="loan-simulator-container">
         <div className="form-box">
           <h2>Ma situation</h2>
@@ -70,7 +70,7 @@ export default function LoanSimulator() {
           </div>
           <div>
             <label>
-              Durée d'endettement (en années)
+              Durée d&eapos;endettement (en années)
               <input
                 type="range"
                 min="0"
@@ -89,7 +89,7 @@ export default function LoanSimulator() {
             <span>{mensualite} €</span>
           </p>
           <p>
-            <span>Capacité d'emprunt</span>
+            <span>Capacité d&eapos;emprunt</span>
             <span>{capaciteEmprunt} €</span>
           </p>
           <p>
@@ -105,7 +105,7 @@ export default function LoanSimulator() {
             <span>{tauxEmprunt}%</span>
           </p>
           <p>
-            <span>Durée d'endettement</span>
+            <span>Durée d&eapos;endettement</span>
             <span>{dureeEndettement} ans</span>
           </p>
         </div>

@@ -152,6 +152,7 @@ export default function LoanVisualization() {
           alert(data.message+". You may already have a loan accepted for this bank");
 
         }
+        closeModal();
 
       })
       .catch((error) => {
@@ -161,7 +162,7 @@ export default function LoanVisualization() {
   };
 
   const handleDelete = () => {
-
+      console.log("ca arrive");
   }
 
   const approvedApplications = applications.filter(
@@ -245,7 +246,7 @@ export default function LoanVisualization() {
                 alert("Amount and tenure are mandatory fields");
                 return;
               }
-              createLoan(selectedBank, amount, tenure);  }} />
+              createLoan(selectedBank, amount, tenure); }} />
             <Button text="Close" onClick={closeModal} />
           </div>
 
@@ -315,7 +316,7 @@ export default function LoanVisualization() {
                 amount={application.amount}
                 tenure={application.tenure}
                 onClickText="Delete"
-                onClick={handleDelete()}
+                onClick={() => handleDelete()}
                 datePostedUser={new Date(application.date_posted).toLocaleDateString(
                   "en-GB"
                 )}

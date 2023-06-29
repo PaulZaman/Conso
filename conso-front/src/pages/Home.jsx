@@ -1,5 +1,4 @@
 import Header from "../components/Header";
-import React from "react";
 import Footer from "../components/Footer";
 import "../style/Home.css";
 import ContentCard1 from "../components/Content_cards_1";
@@ -14,7 +13,7 @@ export default function Home() {
         Terminés les rendez-vous interminables avec le banquier.{" "}
         <b className="test">Conso.</b> fait tout pour vous
       </h1>
-      <SimulationButton text="Effectuer ma simulation" to="/loan_simulator" />
+      <SimulationButton text="Effectuer ma simulation" onClick={() => (window.location.href = '/loan_simulator')} />
 
       <div className="content_group">
         <ContentCard1 text="Des courties à l'écoute et disponibles pour répondre à vos besoins" />

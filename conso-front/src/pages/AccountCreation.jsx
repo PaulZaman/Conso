@@ -1,7 +1,7 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Button from "../components/button";
-import React, { useState } from "react";
+import { useState } from "react";
 import "../style/AccountCreation.css";
 import api_link from "../constants";
 
@@ -86,7 +86,6 @@ export default function SignInForm() {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res);
         if (
           res.message ===
           "User created successfully, you can now verify your account"
@@ -118,7 +117,6 @@ export default function SignInForm() {
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res);
           if (res.message === "User verified successfully") {
             window.location.href = "/login";
             return;

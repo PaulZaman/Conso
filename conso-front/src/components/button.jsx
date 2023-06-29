@@ -1,11 +1,15 @@
-import '../style/Button.css'
+import PropTypes from 'prop-types';
+import '../style/Button.css';
 
-export default function Button(props){
-    return(
-        <a href={props.to}>
-            <button onClick={props.onClick} className='Button' type='button'>
-                <p className='textLink'>{props.text}</p>
-            </button>
-        </a>
-    );
+export default function Button(props) {
+  return (
+      <button onClick={props.onClick} className="Button" type="button">
+        <p className="textLink">{props.text}</p>
+      </button>
+  );
 }
+
+Button.propTypes = {
+  onClick: PropTypes.func,
+  text: PropTypes.string.isRequired,
+};

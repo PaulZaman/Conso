@@ -43,7 +43,7 @@ export default function VisualizationUser(props) {
 
 VisualizationUser.propTypes = {
   applicationID: PropTypes.number.isRequired,
-  bank: PropTypes.string.isRequired,
+  bank: PropTypes.number.isRequired,
   status: PropTypes.oneOf(['pending', 'approved', 'rejected']).isRequired,
   amount: PropTypes.number.isRequired,
   tenure: PropTypes.number.isRequired,

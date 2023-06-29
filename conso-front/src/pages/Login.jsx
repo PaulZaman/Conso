@@ -22,7 +22,6 @@ function LoginForm() {
   const [password, setPassword] = useState("password");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
-  const [isBanker, setIsBanker] = useState("");
 
   // Form validation and submission
   const validateForm = (e) => {
@@ -70,8 +69,6 @@ function LoginForm() {
         else {
           window.location.href = "/profile";
         }
-        console.log("banker2",data.result);
-        setIsBanker(data.result);
       })
       .catch((error) => {
         console.log(error);
@@ -93,7 +90,6 @@ function LoginForm() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
 
         // Store the token and user_id in local storage
         localStorage.setItem("token", data.token);
@@ -101,10 +97,6 @@ function LoginForm() {
 
         if (data.token) {
           isUserBanker();
-          //window.location.href = "/profile";
-        }
-        if (data.token && isBanker===false) {
-          //window.location.href = "/loanBanker";
         }
         if (data.message === "User not found") {
           setEmailError("User not found");

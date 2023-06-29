@@ -44,7 +44,6 @@ export default function LoanVisualizationBanker() {
         .then((response) => response.json())
         .then((data) => {
           // Handle the response data
-          console.log(data.applications);
           setApplications(data.applications);
         })
         .catch((error) => {
@@ -117,7 +116,6 @@ export default function LoanVisualizationBanker() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data
-        console.log(data.user);
         setFirstName(data.user.firstname);
         setLastName(data.user.lastname);
         setDob(new Date(data.user.dob).toLocaleDateString("en-GB"));
@@ -149,7 +147,7 @@ export default function LoanVisualizationBanker() {
   const handleAccept = () => {
     // Perform the accept action here
     makeOffer(selectedApplication, interestRate);
-    console.log("Application accepted:", selectedApplication);
+    alert("Application accepted:", selectedApplication);
     // Reset the selected application and interest rate
     setSelectedApplication(null);
     setInterestRate("");
@@ -159,7 +157,7 @@ export default function LoanVisualizationBanker() {
   const handleReject = () => {
     // Perform the reject action here
     rejectApplication(selectedApplication);
-    console.log("Application rejected:", selectedApplication);
+    alert("Application rejected:", selectedApplication);
     // Reset the selected application
     setSelectedApplication(null);
     location.reload();
