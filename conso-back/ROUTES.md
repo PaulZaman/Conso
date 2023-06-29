@@ -19,6 +19,7 @@
 | POST http://localhost:8080/user/apply        | Post a loan application     | - id<br>- token<br>- bank_id<br>- amount<br>- tenure                                                                                                                                                     |
 | POST http://localhost:8080/user/applications | Get all loan applications   | - id<br>- token                                                                                                                                                                                          |
 | POST http://localhost:8080/user/isBanker     | Check if a user is a banker | - id<br>- token            |
+| POST http://localhost:8080/user/offer       | Get an offer for an application            | - id<br>- token<br>- loan_application_id                                   |
 
 ## 🏦 Bank
 
