@@ -42,3 +42,30 @@
     gap: 2.5rem;
     color: white;
 }
+
+.bankerProfile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+.bankerProfile h1 {
+    font-size: 40px;
+}
+
+.bankerProfile li {
+    list-style: square;
+    font-size: 15px;
+}
+
+.bankerLegalInfo{
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem
+}
+
+.requiredDocumentBank {
+    margin-top: 1rem;
+}
