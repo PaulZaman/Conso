@@ -65,8 +65,8 @@ export default function Header() {
           Visualiser mes demandes  
         </a>
       ) : loggedIn & isBanker ? (<a className="link_app" href="/loanBanker">
-      See banks
-    </a>) : (<a className="link_app" onClick={() => (window.location.href = '/loan_visualization')}>
+      Requêtes
+    </a>) : (<a className="link_app" onClick={() => (window.location.href = '/login')}>
           Visualiser mes demandes  
         </a>
       )}

@@ -64,6 +64,12 @@ function LoginForm() {
     })
       .then((response) => response.json())
       .then((data) => {
+        if(data.result){
+          window.location.href = "/loanBanker";
+        }
+        else {
+          window.location.href = "/profile";
+        }
         console.log("banker2",data.result);
         setIsBanker(data.result);
       })
@@ -92,29 +98,14 @@ function LoginForm() {
         // Store the token and user_id in local storage
         localStorage.setItem("token", data.token);
         localStorage.setItem("user_id", data.user_id);
-        isUserBanker();
 
-        setTimeout(function() {
-          
-        if (data.token && isBanker===true) {
-          console.log("bg");
-          window.location.href = "/loanBanker";
+        if (data.token) {
+          isUserBanker();
+          //window.location.href = "/profile";
         }
         if (data.token && isBanker===false) {
-          console.log("bg2");
-
           //window.location.href = "/loanBanker";
         }
-        }, 2000);
-        //console.log("banker",isBanker);
-
-        /*
-        if (data.token && isBanker===true) {
-          window.location.href = "/profile";
-        }
-        if (data.token && isBanker===false) {
-          window.location.href = "/loanBanker";
-        }*/
         if (data.message === "User not found") {
           setEmailError("User not found");
         }
@@ -162,7 +153,7 @@ function LoginForm() {
           </div>
 
           <p className="textLink">
-            Don't have an account?{" "}
+            Dont have an account?{" "}
             <a className="signInLink" href="/signin">
               Sign in
             </a>
