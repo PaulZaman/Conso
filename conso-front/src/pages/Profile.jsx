@@ -61,7 +61,6 @@ export default function Profile() {
         .then((response) => response.json())
         .then((data) => {
           // Handle the response data
-          console.log("hhhh")
           setFirstName(data.user.firstname);
           setLastName(data.user.lastname);
           setDob(new Date(data.user.dob).toLocaleDateString("en-GB"));
@@ -112,10 +111,13 @@ export default function Profile() {
     })
       .then((response) => response.json())
       .then((data) => {
-        setBankID(data.bank.id);
-        setBankName(data.bank.name);
-        setBankLogoPath(data.bank.logo_path)
-        setRequiredDocuments(data.bank.documents_required)
+    
+
+          setBankID(data.bank.id);
+          setBankName(data.bank.name);
+          setBankLogoPath(data.bank.logo_path)
+          setRequiredDocuments(data.bank.documents_required)
+        
       })
       .catch((error) => {
         console.log(error);

@@ -29,3 +29,34 @@ li {
 .popup {
     z-index: 30
 }
+
+
+.bank-logos {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 1rem;
+    padding: 1rem;
+    gap: 1rem
+
+  }
+  
+  .bank-logo {
+    cursor: pointer;
+  }
+  
+  .bank-logo.selected {
+    border: 4px solid #9E44E4;
+    border-radius: 1rem;
+  }
+
+  .loanInputs {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .popUpButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }

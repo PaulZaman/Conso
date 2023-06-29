@@ -10,8 +10,8 @@
     align-items: center;
     justify-content: center;
   }
-  .modal-content {
-    width: 400px;
+  .modal-content- {
+    width: fit-content;
     height: fit-content;
     background-color: #f2f4f5;
     border-radius: 1rem;
@@ -19,41 +19,9 @@
     display: flex;
     flex-direction: column;
     align-items:center;
-    justify-content:left;
+    justify-content:center;
+    gap: 1rem
   }
   .modal-content h1 {
     color: black;
   }
-
-.userLegalInfo {
-  display: flex;
-  gap: 0.2rem;
-  border-bottom: 2px solid black;
-  align-items: end;
-  margin-bottom: 1rem;
-
-}
-
-.userLegalInfo p {
-  font-size: x-small;
-  margin: 6px
-}
-.loanInfo {
-  border-top: 2px solid black;
-  border-bottom: 2px solid black;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-}
-  .react-modal {
-    z-index: 1000;
-  }
-
-.buttonBanker {
-  justify-content: center;
-  display: flex;
-  gap: 1rem;
-    margin-top: 1rem;
-
-}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import  { useEffect, useState } from "react";
 import "../style/Header.css";
 import Logo from "../asset/logo.png";
 import authentificate_user from "../authentification";
@@ -31,7 +31,6 @@ export default function Header() {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.result);
         setIsBanker(data.result);
       })
       .catch((error) => {
@@ -43,10 +42,6 @@ export default function Header() {
 
 
   
-  const handleLogout = () => {
-    localStorage.clear();
-    window.location.href = "/home";
-  };
 
   return (
     <header>
@@ -58,7 +53,7 @@ export default function Header() {
           style={{ height: "50px", width: "auto" }}
         />
       </a>
-      <a href="/loan_simulator">Estimer ma capacité d'emprunt</a>
+      <a href="/loan_simulator">Estimer ma capacité d&apos;emprunt</a>
       <a href="/about">Qui sommes nous ?</a>
       {loggedIn && !isBanker ? (
         <a className="link_app" onClick={() => (window.location.href = '/loan_visualization')}>

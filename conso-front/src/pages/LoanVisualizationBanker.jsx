@@ -5,7 +5,7 @@ import Footer from "../components/Footer";
 import ApplicationBanker from "../components/ApplicationsBanker";
 import authentificate_user from "../authentification";
 import apiLink from "../constants";
-import "../style/LoanVisualizationModal.css";
+import "../style/LoanVisualizationBankerModal.css";
 import "../style/LoanVisualizationBanker.css";
 import Button from "../components/button";
 Modal.setAppElement("#root");
@@ -70,6 +70,7 @@ export default function LoanVisualizationBanker() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data
+        alert(`rejected: ${data}`);
       })
       .catch((error) => {
         // Handle any errors that occur during the request
@@ -93,6 +94,7 @@ export default function LoanVisualizationBanker() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data
+        alert("offer made:"+data)
       })
       .catch((error) => {
         // Handle any errors that occur during the request
