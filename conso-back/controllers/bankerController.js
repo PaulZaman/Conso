@@ -7,6 +7,7 @@ const LoanApplication = require('../models/LoanApplicationModel');
 const Offer = require('../models/OfferModel');
 const DocumentType = require('../models/DocumentTypeModel');
 
+
 async function createBanker(req, res) {
 	const { firstname, lastname, email, password, bank_id, dob, profile_image_path = "", is_verified = true } = req.body;
 
@@ -211,14 +212,13 @@ async function getUserFromApplication(req, res) {
 		res.status(500).json({ message: 'Error getting user from application' });
 	}
 }
-
 async function getBankFromBanker(req, res) {
 	try {
 		const { id } = req.body;
 		// find banker
 		const banker = await Banker.findOne({ where: { user_id: id } });
 		if (!banker) {
-			return res.status(404).json({ message: 'Id provided is not the one of a banker' });
+			return res.status(404).json({ message: 'Id provided is not that of a banker' });
 		}
 		// find bank
 		const bank = await Bank.findByPk(banker.bank_id);
@@ -231,11 +231,14 @@ async function getBankFromBanker(req, res) {
 		const documentTypes = await DocumentType.findAll();
 		const matchedDocumentTypes = [];
 
-		// find document types that match the documents required by the bank
-		for (const documentType of documentTypes) {
-			const documentTypeId = documentType.id;
-			if (documentsRequired.hasOwnProperty(documentTypeId.toString())) {
-				matchedDocumentTypes.push(documentType);
+		// check if documentsRequired is not null or undefined
+		if (documentsRequired && typeof documentsRequired === 'object') {
+			// find document types that match the documents required by the bank
+			for (const documentType of documentTypes) {
+				const documentTypeId = documentType.id;
+				if (documentsRequired.hasOwnProperty(documentTypeId.toString())) {
+					matchedDocumentTypes.push(documentType);
+				}
 			}
 		}
 
@@ -251,7 +254,7 @@ async function getBankFromBanker(req, res) {
 		res.status(200).json({ message: 'Bank found', bank });
 	}
 	catch (e) {
-		console.log(e)
+		console.log(e);
 		res.status(500).json({ message: 'Error getting bank from banker' });
 	}
 }

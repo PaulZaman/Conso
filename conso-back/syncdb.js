@@ -73,21 +73,45 @@ async function initDB() {
       documents_required: documents_required,
     });
   }*/
+  let n_required = Math.floor(Math.random() * 7) + 1;
+  let documents_required = {};
+  for (let j = 1; j < n_required; j++) {
+    documents_required[j] = true;
+  }
   Bank.create({
     name: "Caisse d'Epargne",
     logo_path: "conso-front/src/asset/logo-caisse-epargne.png",
+    documents_required: documents_required,
   });
+  n_required = Math.floor(Math.random() * 7) + 1;
+  documents_required = {};
+  for (let j = 1; j < n_required; j++) {
+    documents_required[j] = true;
+  }
   Bank.create({
     name: "Société Générale",
     logo_path: "conso-front/src/asset/logo-societe-generale.png",
+    documents_required: documents_required,
   });
+  n_required = Math.floor(Math.random() * 7) + 1;
+  documents_required = {};
+  for (let j = 1; j < n_required; j++) {
+    documents_required[j] = true;
+  }
   Bank.create({
     name: "Crédit Agricole",
     logo_path: "conso-front/src/asset/logo-credit-agricole.png",
+    documents_required: documents_required,
   });
+  n_required = Math.floor(Math.random() * 7) + 1;
+  documents_required = {};
+  for (let j = 1; j < n_required; j++) {
+    documents_required[j] = true;
+  }
   Bank.create({
     name: "Crédit Mutuel",
     logo_path: "conso-front/src/asset/logo-Crédit-Mutuel.png",
+    documents_required: documents_required,
   });
   // create banker Admin
   Banker.create({
