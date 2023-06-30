@@ -134,12 +134,6 @@ export default function Profile() {
   }, []);
 
 
-  
-
-
-
-
-
   const handleLogout = () => {
     localStorage.clear();
     window.location.href = "/home";
@@ -155,7 +149,7 @@ export default function Profile() {
         email.trim() === "" ||
         password.trim() === ""
       ) {
-        setUpdateError("Veuillez remplir tous les champs.");
+        setUpdateError("Please fill in all the fields.");
         return;
       }
       if (
@@ -174,7 +168,7 @@ export default function Profile() {
       const ageInYears = Math.floor(ageDiff / (1000 * 3600 * 24 * 365.25));
   
       if (ageInYears < 18) {
-        setUpdateError("Vous devez avoir au moins 18 ans.");
+        setUpdateError("You must be at least 18 years old.");
         return;
       }
       const response = await fetch(`${apiLink}/user/update`, {
@@ -203,7 +197,7 @@ export default function Profile() {
     } catch (error) {
       console.error(error);
       setUpdateError(
-        "Une erreur s'est produite lors de la mise à jour des informations utilisateur."
+        "An error occurred while updating user information."
       );
       setUpdateSuccess(false); // Réinitialiser la valeur de mise à jour réussie en cas d'erreur
     }
@@ -279,14 +273,14 @@ export default function Profile() {
               </div>
             </div>
             {updateError && <p className="error-message">{updateError}</p>}
-        {updateSuccess && !updateError && <p className="successMessage">Profil modifié avec succès !</p>} 
+        {updateSuccess && !updateError && <p className="successMessage">Profile successfully updated!</p>} 
 
 
             <Button onClick={handleUpdate} text="Update" />
 
             <div className="uploadSection">
               <div className="fileSection">
-                <h1>Mes documents</h1>
+                <h1>My documents</h1>
                 <div>
                   {Object.keys(documentTypes).map((key) => (
                     <div className="sectionPair" key={key}>
