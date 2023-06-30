@@ -7,6 +7,7 @@ import Button from "../components/button";
 import apiLink from "../constants";
 import authentificate_user from "../authentification";
 
+
 export default function Profile() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -19,6 +20,9 @@ export default function Profile() {
   const [bankID, setBankID] = useState("");
   const [bankLogoPath, setBankLogoPath] = useState("");
   const [requiredDocuments, setRequiredDocuments] = useState([]);
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [updateError, setUpdateError] = useState('');
+  const [initialUserInfo, setInitialUserInfo] = useState({});
 
 
   useEffect(() => {
@@ -98,6 +102,8 @@ export default function Profile() {
   isUserBanker();
 
 
+  
+
   const bankInfo = () => {
     fetch(`${apiLink}/banker/bank`, {
       method: "POST",
@@ -128,42 +134,75 @@ export default function Profile() {
   }, []);
 
 
-  
-
-
-
-
-
   const handleLogout = () => {
     localStorage.clear();
     window.location.href = "/home";
   };
-  const handleUpdate = async () => {
-    fetch(`${apiLink}/user/update`, {
-      method: "POST",
-      body: JSON.stringify({
-        firstname: firstName,
-        lastname: lastName,
-        dob: dob,
-        email: email,
-        password: password,
-        id: localStorage.getItem("user_id"),
-        token: localStorage.getItem("token"),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the request
-        console.error(error);
-      });
-  };
 
+
+
+  const handleUpdate = async () => {
+    try {
+      if (
+        firstName.trim() === "" ||
+        lastName.trim() === "" ||
+        email.trim() === "" ||
+        password.trim() === ""
+      ) {
+        setUpdateError("Please fill in all the fields.");
+        return;
+      }
+      if (
+        firstName === initialUserInfo.firstname &&
+        lastName === initialUserInfo.lastname &&
+        dob === new Date(initialUserInfo.dob).toLocaleDateString("en-GB") &&
+        email === initialUserInfo.email &&
+        password === initialUserInfo.password
+      ) {
+        setUpdateError("Aucune modification détectée.");
+        return;
+      }
+      const currentDate = new Date();
+      const userBirthdate = new Date(dob);
+      const ageDiff = currentDate.getTime() - userBirthdate.getTime();
+      const ageInYears = Math.floor(ageDiff / (1000 * 3600 * 24 * 365.25));
+  
+      if (ageInYears < 18) {
+        setUpdateError("You must be at least 18 years old.");
+        return;
+      }
+      const response = await fetch(`${apiLink}/user/update`, {
+        method: "PUT",
+        body: JSON.stringify({
+          firstname: firstName,
+          lastname: lastName,
+          dob: dob,
+          email: email,
+          password: password,
+          id: localStorage.getItem("user_id"),
+          token: localStorage.getItem("token"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setUpdateSuccess(true);
+        setUpdateError(""); // Réinitialiser l'erreur s'il y en avait une précédemment
+      } else {
+        throw new Error("Failed to update user information");
+      }
+    } catch (error) {
+      console.error(error);
+      setUpdateError(
+        "An error occurred while updating user information."
+      );
+      setUpdateSuccess(false); // Réinitialiser la valeur de mise à jour réussie en cas d'erreur
+    }
+  };
+  
 
 
   return (
@@ -233,12 +272,15 @@ export default function Profile() {
                 />
               </div>
             </div>
+            {updateError && <p className="error-message">{updateError}</p>}
+        {updateSuccess && !updateError && <p className="successMessage">Profile successfully updated!</p>} 
+
 
             <Button onClick={handleUpdate} text="Update" />
 
             <div className="uploadSection">
               <div className="fileSection">
-                <h1>Mes documents</h1>
+                <h1>My documents</h1>
                 <div>
                   {Object.keys(documentTypes).map((key) => (
                     <div className="sectionPair" key={key}>
