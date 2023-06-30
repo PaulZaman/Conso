@@ -6,6 +6,7 @@ const Bank = require('../models/BankModel');
 const LoanApplication = require('../models/LoanApplicationModel');
 const Offer = require('../models/OfferModel');
 const DocumentType = require('../models/DocumentTypeModel');
+const Document = require('../models/DocumentModel');
 
 
 async function createBanker(req, res) {
@@ -206,12 +207,19 @@ async function getUserFromApplication(req, res) {
 		if (!user) {
 			return res.status(404).json({ message: 'User not found' });
 		}
-		res.status(200).json({ message: 'User found', user });
+
+		// get the documents of this user
+		const documents = await Document.findAll({ where: { user_id: user.id } });
+
+
+
+		res.status(200).json({ message: 'User found', user, documents });
 	}
 	catch (e) {
 		res.status(500).json({ message: 'Error getting user from application' });
 	}
 }
+
 async function getBankFromBanker(req, res) {
 	try {
 		const { id } = req.body;

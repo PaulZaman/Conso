@@ -3,7 +3,7 @@ const express = require('express');
 const router = express.Router();
 const { createUser, deleteUser, updateUser, validate, getUser, getUserApplications, userIsBanker, getOffer } = require('../controllers/userController');
 const { authenticate } = require('../routes/auth');
-const { CreateLoanApplication } = require('../controllers/LoanController');
+const { CreateLoanApplication, deleteLoanApplication } = require('../controllers/LoanController');
 
 // get a user
 router.post('/', authenticate, getUser);
@@ -22,6 +22,8 @@ router.post('/update', authenticate, updateUser);
 
 // Create a new loan application
 router.post('/apply', authenticate, CreateLoanApplication);
+
+router.post('/apply/del', authenticate, deleteLoanApplication);
 
 // Get all loan applications of a user
 router.post('/applications', authenticate, getUserApplications);

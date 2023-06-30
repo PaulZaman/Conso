@@ -73,5 +73,29 @@ async function CreateLoanApplication(req, res) {
 	}
 }
 
+async function deleteLoanApplication(req, res) {
+	const { id, loan_application_id } = req.body;
+	try {
+		// find user
+		const user = await User.findOne({ where: { id } });
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		// find loan application
+		const LA = await LoanApplication.findOne({ where: { id: loan_application_id } });
+		if (!LA) {
+			return res.status(404).json({ message: 'Loan application not found' });
+		}
+		// delete loan application
+		await LA.destroy();
 
-module.exports = { CreateLoanApplication };
+		res.status(200).json({ message: 'Loan application deleted' });
+	}
+	catch (e) {
+		console.log(e);
+		res.status(500).json({ message: 'Error deleting loan application' });
+	}
+}
+
+
+module.exports = { CreateLoanApplication, deleteLoanApplication };

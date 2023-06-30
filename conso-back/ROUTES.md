@@ -20,6 +20,7 @@
 | POST http://localhost:8080/user/applications | Get all loan applications   | - id<br>- token                                                                                                                                                                                          |
 | POST http://localhost:8080/user/isBanker     | Check if a user is a banker | - id<br>- token            |
 | POST http://localhost:8080/user/offer       | Get an offer for an application            | - id<br>- token<br>- loan_application_id                                   |
+| POST http://localhost:8080/user/apply/del       | Delete a loan application           | - id<br>- token<br>- loan_application_id                                   |
 
 ## 🏦 Bank
 
@@ -45,5 +46,5 @@
 | POST http://localhost:8080/banker/applications | Get all applications for a banker  | - id<br>- token                                             |
 | POST http://localhost:8080/banker/offer        | Make an offer for an application   | - id<br>- token<br>- loan_application_id<br>- interest_rate |
 | POST http://localhost:8080/banker/refuse       | Refuse an offer for an application | - id<br>- token<br>- loan_application_id                    |
-| POST http://localhost:8080/banker/user       | Get the user from an application | - id<br>- token<br>- loan_application_id                    |
-| POST http://localhost:8080/banker/bank      | Get the information from a banker | - id<br>- token<br>-    |
+| POST http://localhost:8080/banker/user       | Get the user from an application (and his applications) | - id<br>- token<br>- loan_application_id                    |
+| POST http://localhost:8080/banker/bank      | Get the information from a banker | - id<br>- token<br>    |
