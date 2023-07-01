@@ -174,7 +174,7 @@ export default function LoanVisualizationBanker() {
       <Header />
       <h1>Consulter vos demandes de prêts</h1>
       <div className="applications">
-        <h1>Approved Applications</h1>
+        <h1>Demandes approuvées</h1>
         <ul>
           {approvedApplications.map((application, index) => (
             <li
@@ -190,7 +190,7 @@ export default function LoanVisualizationBanker() {
         </ul>
       </div>
       <div className="applications">
-        <h1>Pending Applications</h1>
+        <h1>Demandes en attente</h1>
         <ul>
           {pendingApplications.map((application, index) => (
             <li
@@ -225,16 +225,16 @@ export default function LoanVisualizationBanker() {
             </div>
             <p>{email}</p>
             <p>
-              Salary: <b>{salary}</b>€/month
+              Salaire: <b>{salary}</b>€/mois
             </p>
             <div className="loanInfo">
               <p>
-                <b>{selectedApplication.amount}</b>€ over{" "}
-                <b>{selectedApplication.tenure}</b> years
+                <b>{selectedApplication.amount}</b>€ sur{" "}
+                <b>{selectedApplication.tenure}</b> années
               </p>
             </div>
-            <p>Files</p>
-            <p>Interest rate :</p>
+            <p>Fichiers</p>
+            <p>Taux d'intérêt :</p>
             <input
               type="text"
               value={interestRate}
@@ -242,8 +242,8 @@ export default function LoanVisualizationBanker() {
             />
             {/* Add any other specific application information here */}
             <div className="buttonBanker">
-              <Button text="Accept" onClick={handleAccept} />
-              <Button text="Reject" onClick={handleReject} />
+              <Button text="Accepter" onClick={handleAccept} />
+              <Button text="Rejetter" onClick={handleReject} />
             </div>
           </div>
         )}

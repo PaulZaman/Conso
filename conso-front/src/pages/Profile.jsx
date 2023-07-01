@@ -149,13 +149,13 @@ export default function Profile() {
         email.trim() === "" ||
         password.trim() === ""
       ) {
-        setUpdateError("Please fill in all the fields.");
+        setUpdateError("Veuillez remplir tous les champs.");
         return;
       }
       if (
         firstName === initialUserInfo.firstname &&
         lastName === initialUserInfo.lastname &&
-        dob === new Date(initialUserInfo.dob).toLocaleDateString("en-GB") &&
+        dob === new Date(initialUserInfo.dob).toLocaleDateString("fr-FR") &&
         email === initialUserInfo.email &&
         password === initialUserInfo.password
       ) {
@@ -168,7 +168,7 @@ export default function Profile() {
       const ageInYears = Math.floor(ageDiff / (1000 * 3600 * 24 * 365.25));
   
       if (ageInYears < 18) {
-        setUpdateError("You must be at least 18 years old.");
+        setUpdateError("Vous devez avoir au moins 18 ans.");
         return;
       }
       const response = await fetch(`${apiLink}/user/update`, {
@@ -192,57 +192,48 @@ export default function Profile() {
         setUpdateSuccess(true);
         setUpdateError(""); // Réinitialiser l'erreur s'il y en avait une précédemment
       } else {
-        throw new Error("Failed to update user information");
+        throw new Error("Impossible de mettre à jour les informations de l'utilisateur");
       }
     } catch (error) {
       console.error(error);
-      setUpdateError(
-        "An error occurred while updating user information."
-      );
+      setUpdateError("Une erreur s'est produite lors de la mise à jour des informations de l'utilisateur.");
       setUpdateSuccess(false); // Réinitialiser la valeur de mise à jour réussie en cas d'erreur
     }
   };
   
-
-
   return (
     <>
       <Header />
-      {isBanker? (
+      {isBanker ? (
         <div className="bankerProfile">
-
-          <h1>BANK INFO</h1>
+          <h1>INFO BANCAIRE</h1>
           <img src={bankLogoPath} alt={bankID}></img>
           <h3>{bankName}</h3>
           <ul className="requiredDocumentBank">
             {requiredDocuments.map((document) => (
-            <li  key={document.id}>{document.nametype}</li>
+              <li key={document.id}>{document.nametype}</li>
             ))}
           </ul>
-
-          <h1>BANKER INFO</h1>
+  
+          <h1>INFO BANQUIER</h1>
           <div>
             <h3>{firstName}</h3>
             <h3>{lastName}</h3>
           </div>
           <h3>{email}</h3>
-          <Button onClick={handleLogout} text="Log Out" />
-
+          <Button onClick={handleLogout} text="Déconnexion" />
         </div>
-      
       ) : (
-
         <div className="userProfile">
-
           <div className="uploadSection">
-            <h1 className="profileTitle">My Profile</h1>
+            <h1 className="profileTitle">Mon Profil</h1>
             <div className="profileInformation">
               <div className="profileLabels">
-                <h3>FirstName</h3>
-                <h3>LastName</h3>
-                <h3>Birthdate</h3>
+                <h3>Prénom</h3>
+                <h3>Nom</h3>
+                <h3>Date de naissance</h3>
                 <h3>Email</h3>
-                <h3>Password</h3>
+                <h3>Mot de passe</h3>
               </div>
               <div className="inputs">
                 <input
@@ -273,14 +264,14 @@ export default function Profile() {
               </div>
             </div>
             {updateError && <p className="error-message">{updateError}</p>}
-        {updateSuccess && !updateError && <p className="successMessage">Profile successfully updated!</p>} 
-
-
-            <Button onClick={handleUpdate} text="Update" />
-
+            {updateSuccess && !updateError && (
+              <p className="successMessage">Profil mis à jour avec succès !</p>
+            )}
+            <Button onClick={handleUpdate} text="Mettre à jour" />
+  
             <div className="uploadSection">
               <div className="fileSection">
-                <h1>My documents</h1>
+                <h1>Mes documents</h1>
                 <div>
                   {Object.keys(documentTypes).map((key) => (
                     <div className="sectionPair" key={key}>
@@ -290,10 +281,8 @@ export default function Profile() {
                 </div>
               </div>
             </div>
-            <Button onClick={handleLogout} text="Log Out" />
-
+            <Button onClick={handleLogout} text="Déconnexion" />
           </div>
-
         </div>
       )}
       <Footer />

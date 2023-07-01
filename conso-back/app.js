@@ -3,7 +3,6 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const db = require('./database/connection'); 
 const User = require('./models/UserModel');
 const { updateUser } = require('./controllers/userController');
 
