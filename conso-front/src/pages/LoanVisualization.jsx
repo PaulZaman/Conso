@@ -209,7 +209,7 @@ export default function LoanVisualization() {
     getOffer(application);
   };
 
-  rreturn (
+  return (
     <>
       <Header />
       <div>
