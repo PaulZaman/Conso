@@ -19,7 +19,7 @@ export default function VisualizationUser(props) {
           <p>{props.applicationID}</p>
           <p>{props.bank}</p>
           <p>{props.amount}€</p>
-          <p>{props.tenure} years</p>
+          <p>{props.tenure} années</p>
           <p>{props.datePostedUser}</p>
           <a className="link" onClick={props.onClick}>
             {props.onClickText}
@@ -30,7 +30,7 @@ export default function VisualizationUser(props) {
           <p>{props.applicationID}</p>
           <p>{props.bank}</p>
           <p>{props.amount}€</p>
-          <p>{props.tenure} years</p>
+          <p>{props.tenure} années </p>
           <p>{props.datePostedUser}</p>
           <a className="link" onClick={props.onClick}>
             {props.onClickText}

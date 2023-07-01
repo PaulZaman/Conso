@@ -209,7 +209,7 @@ export default function LoanVisualization() {
     getOffer(application);
   };
 
-  return (
+  rreturn (
     <>
       <Header />
       <div>
@@ -217,7 +217,7 @@ export default function LoanVisualization() {
         <div className="yeu">
           <Button onClick={openModal} className="test_____" text="Nouvelle Demande" />
         </div>
-
+  
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
@@ -231,18 +231,17 @@ export default function LoanVisualization() {
               type="text"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              placeholder="Amount"
+              placeholder="Montant"
             />
             <input
               type="text"
               value={tenure}
               onChange={(e) => setTenure(e.target.value)}
-              placeholder="Tenure"
+              placeholder="Durée"
             />
           </div>
-
+  
           <div className="bank-logos">
-            
             <img
               src={CE_logo}
               alt="CE Bank"
@@ -269,23 +268,23 @@ export default function LoanVisualization() {
             />
           </div>
           <div className="popUpButtons">
-            <Button text="Send" onClick={() => {
+            <Button text="Envoyer" onClick={() => {
               if (!amount || !tenure) {
-                alert("Amount and tenure are mandatory fields");
+                alert("Le montant et la durée sont des champs obligatoires");
                 return;
               }
-              createLoan(selectedBank, amount, tenure); }} />
-            <Button text="Close" onClick={closeModal} />
+              createLoan(selectedBank, amount, tenure);
+            }} />
+            <Button text="Fermer" onClick={closeModal} />
           </div>
-
         </Modal>
+  
         <Modal
           isOpen={modal2IsOpen}
           onRequestClose={closeModal2}
           contentLabel="Modal 2"
-          
           className="modal-content-"
-          overlayClassName="modal-overlay-"
+          overlayClassName="modal-overlay"
           
           >
           <h2>Offer associated with your loan application</h2>
@@ -297,16 +296,16 @@ export default function LoanVisualization() {
           <p><i>Your banker will contact you soon to continue the loan procedure</i></p>
           <Button text="Close" onClick={closeModal2} />
         </Modal>
-
-        <h1>Approved Applications</h1>
-        
+  
+        <h1>Demandes approuvées</h1>
+  
         <div className="labels">
           <p>ID</p>
           <p>Banque</p>
-          <p>Amount</p>
-          <p>Tenure</p>
+          <p>Montant</p>
+          <p>Durée</p>
           <p>Date</p>
-          </div>
+        </div>
         <ul>
           {approvedApplications.map((application, index) => (
             <li key={index}>
@@ -316,22 +315,20 @@ export default function LoanVisualization() {
                 status={application.status}
                 amount={application.amount}
                 tenure={application.tenure}
-                onClickText="See offer"
-                onClick={() => {handleApplicationClick(application);getOffer(application);openModal2();}}
-                datePostedUser={new Date(application.date_posted).toLocaleDateString(
-                  "en-GB"
-                )}
+                onClickText="Voir l'offre"
+                onClick={() => { handleApplicationClick(application); getOffer(application); openModal2(); }}
+                datePostedUser={new Date(application.date_posted).toLocaleDateString("fr-FR")}
               />
             </li>
           ))}
         </ul>
-
-        <h1>Pending Applications</h1>
+  
+        <h1>Demandes en attente</h1>
         <div className="labels">
           <p>ID</p>
           <p>Banque</p>
-          <p>Amount</p>
-          <p>Tenure</p>
+          <p>Montant</p>
+          <p>Durée</p>
           <p>Date</p>
         </div>
         <ul>
@@ -344,7 +341,7 @@ export default function LoanVisualization() {
                 amount={application.amount}
                 tenure={application.tenure}
                 onClickText="Delete"
-                onClick={() => handleDelete(application)}
+                onClick={() => handleDelete()}
                 datePostedUser={new Date(application.date_posted).toLocaleDateString(
                   "en-GB"
                 )}
@@ -352,13 +349,13 @@ export default function LoanVisualization() {
             </li>
           ))}
         </ul>
-
-        <h1>Rejected applications</h1>
+  
+        <h1>Demandes rejetées</h1>
         <div className="labels">
           <p>ID</p>
           <p>Banque</p>
-          <p>Amount</p>
-          <p>Tenure</p>
+          <p>Montant</p>
+          <p>Durée</p>
           <p>Date</p>
         </div>
         <ul>
@@ -370,9 +367,7 @@ export default function LoanVisualization() {
                 status={application.status}
                 amount={application.amount}
                 tenure={application.tenure}
-                onClickText="Delete"
-                onClick={() => handleDelete(application)}
-                datePostedUser={new Date(application.date_posted).toLocaleDateString(
+                date={new Date(application.date_posted).toLocaleDateString(
                   "en-GB"
                 )}
               />
@@ -380,8 +375,9 @@ export default function LoanVisualization() {
           ))}
         </ul>
       </div>
-
+  
       <Footer />
     </>
   );
-}
+  );
+          }

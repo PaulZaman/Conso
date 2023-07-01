@@ -7,6 +7,7 @@ import Button from "../components/button";
 import apiLink from "../constants";
 import authentificate_user from "../authentification";
 
+
 export default function Profile() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -20,6 +21,10 @@ export default function Profile() {
   const [bankLogoPath, setBankLogoPath] = useState("");
   const [requiredDocuments, setRequiredDocuments] = useState([]);
   const [fileUploaderVisible, setFileUploaderVisible] = useState(false); // État pour gérer la visibilité des FileUploader
+  const [updateSuccess, setUpdateSuccess] = useState(false);
+  const [updateError, setUpdateError] = useState('');
+  const [initialUserInfo, setInitialUserInfo] = useState({});
+
 
   useEffect(() => {
     // authentify user
@@ -119,36 +124,71 @@ export default function Profile() {
     };
     bankInfo();
   }, []);
-
   const handleLogout = () => {
     localStorage.clear();
     window.location.href = "/home";
   };
 
+
+
   const handleUpdate = async () => {
-    fetch(`${apiLink}/user/update`, {
-      method: "POST",
-      body: JSON.stringify({
-        firstname: firstName,
-        lastname: lastName,
-        dob: dob,
-        email: email,
-        password: password,
-        id: localStorage.getItem("user_id"),
-        token: localStorage.getItem("token"),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the request
-        console.error(error);
+    try {
+      if (
+        firstName.trim() === "" ||
+        lastName.trim() === "" ||
+        email.trim() === "" ||
+        password.trim() === ""
+      ) {
+        setUpdateError("Veuillez remplir tous les champs.");
+        return;
+      }
+      if (
+        firstName === initialUserInfo.firstname &&
+        lastName === initialUserInfo.lastname &&
+        dob === new Date(initialUserInfo.dob).toLocaleDateString("fr-FR") &&
+        email === initialUserInfo.email &&
+        password === initialUserInfo.password
+      ) {
+        setUpdateError("Aucune modification détectée.");
+        return;
+      }
+      const currentDate = new Date();
+      const userBirthdate = new Date(dob);
+      const ageDiff = currentDate.getTime() - userBirthdate.getTime();
+      const ageInYears = Math.floor(ageDiff / (1000 * 3600 * 24 * 365.25));
+  
+      if (ageInYears < 18) {
+        setUpdateError("Vous devez avoir au moins 18 ans.");
+        return;
+      }
+      const response = await fetch(`${apiLink}/user/update`, {
+        method: "PUT",
+        body: JSON.stringify({
+          firstname: firstName,
+          lastname: lastName,
+          dob: dob,
+          email: email,
+          password: password,
+          id: localStorage.getItem("user_id"),
+          token: localStorage.getItem("token"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data);
+        setUpdateSuccess(true);
+        setUpdateError(""); // Réinitialiser l'erreur s'il y en avait une précédemment
+      } else {
+        throw new Error("Impossible de mettre à jour les informations de l'utilisateur");
+      }
+    } catch (error) {
+      console.error(error);
+      setUpdateError("Une erreur s'est produite lors de la mise à jour des informations de l'utilisateur.");
+      setUpdateSuccess(false); // Réinitialiser la valeur de mise à jour réussie en cas d'erreur
+    }
   };
 
   const toggleFileUploader = () => {
@@ -186,14 +226,14 @@ export default function Profile() {
       ) : (
         <div className="userProfile">
           <div className="uploadSection">
-            <h1 className="profileTitle">My Profile</h1>
+            <h1 className="profileTitle">Mon Profil</h1>
             <div className="profileInformation">
               <div className="profileLabels">
-                <h3>FirstName</h3>
-                <h3>LastName</h3>
-                <h3>Birthdate</h3>
+                <h3>Prénom</h3>
+                <h3>Nom</h3>
+                <h3>Date de naissance</h3>
                 <h3>Email</h3>
-                <h3>Password</h3>
+                <h3>Mot de passe</h3>
               </div>
               <div className="inputs">
                 <input
@@ -223,9 +263,12 @@ export default function Profile() {
                 />
               </div>
             </div>
-
-            <Button onClick={handleUpdate} text="Update" />
-
+            {updateError && <p className="error-message">{updateError}</p>}
+            {updateSuccess && !updateError && (
+              <p className="successMessage">Profil mis à jour avec succès !</p>
+            )}
+            <Button onClick={handleUpdate} text="Mettre à jour" />
+  
             <div className="uploadSection">
               <div className="fileSection">
         <Button className="documentsButton" onClick={toggleFileUploader} text="Mes documents" />
@@ -240,7 +283,7 @@ export default function Profile() {
                 )}
               </div>
             </div>
-            <Button onClick={handleLogout} text="Log Out" />
+            <Button onClick={handleLogout} text="Déconnexion" />
           </div>
         </div>
       )}

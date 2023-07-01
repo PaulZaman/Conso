@@ -32,7 +32,7 @@ function LoginForm() {
 
     // Validate email
     if (!email.match(emailPattern)) {
-      setEmailError("Please enter a valid email address.");
+      setEmailError("Veuillez entrer une adresse email valide.");
       return;
     } else {
       setEmailError("");
@@ -40,7 +40,7 @@ function LoginForm() {
 
     // Validate password
     if (password.length < 5) {
-      setPasswordError("Password must be at least 6 characters long.");
+      setPasswordError("Le mot de passe doit contenir au moins 6 caractères.");
       return;
     } else {
       setPasswordError("");
@@ -114,7 +114,7 @@ function LoginForm() {
     <div>
       <Header />
       <div className="loginCard">
-        <h2 className="loginTitle">Happy to see you again!</h2>
+        <h2 className="loginTitle">Heureux de vous revoir !</h2>
         <form className="connexionForm">
           <div>
             <input
@@ -143,19 +143,20 @@ function LoginForm() {
           <div>
             <span className="pwd-error">{passwordError}</span>
           </div>
-
+  
           <p className="textLink">
-            Dont have an account?{" "}
+            Vous n'avez pas de compte ?{" "}
             <a className="signInLink" href="/signin">
-              Sign in
+              S'inscrire
             </a>
           </p>
-          <Button onClick={validateForm} text="Log in" />
+          <Button onClick={validateForm} text="Se connecter" />
         </form>
       </div>
       <Footer />
     </div>
   );
-}
-
-export default LoginForm;
+  }
+  
+  export default LoginForm;
+  

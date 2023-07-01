@@ -3,13 +3,15 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const User = require('./models/UserModel');
+const { updateUser } = require('./controllers/userController');
 
 const { router, authenticate } = require("./routes/auth");
 
 // Enable CORS
 app.use(
   cors({
-    origin: "http://127.0.0.1:5173",
+    origin: "http://localhost:5173",
   })
 );
 
@@ -36,6 +38,9 @@ app.use("/document", require("./routes/document"));
 
 // Mount the banker routes
 app.use("/banker", require("./routes/banker"));
+
+// Endpoint to handle user update
+app.put('/user/update', updateUser);
 
 // hello world
 app.get("/", (req, res) => {

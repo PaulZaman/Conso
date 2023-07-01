@@ -6,7 +6,7 @@ export default function ApplicationBanker(props) {
   return (
     <div className="applicationBanker">
       <p>{props.id}</p>
-      <p>{props.tenure} years</p>
+      <p>{props.tenure} années</p>
       <p>
         <b>{props.loanAmount}</b>€
       </p>
