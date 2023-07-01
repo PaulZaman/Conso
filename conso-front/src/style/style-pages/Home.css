@@ -19,3 +19,9 @@ h1 {
 .test {
     font-weight:900;
 }
+
+.buttonLaunchApp {
+    text-align: center;
+    align-items: center;
+    align-self: center;
+}

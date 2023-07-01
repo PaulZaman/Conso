@@ -1,9 +1,9 @@
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "../style/Home.css";
+import "../style/style-pages/Home.css";
 import ContentCard1 from "../components/Content_cards_1";
 import BanksCard from "../components/Banks_card";
-import SimulationButton from "../components/simulationButton";
+import Button from "../components/button";
 
 export default function Home() {
   return (
@@ -13,7 +13,10 @@ export default function Home() {
         Terminés les rendez-vous interminables avec le banquier.{" "}
         <b className="test">Conso.</b> fait tout pour vous
       </h1>
-      <SimulationButton text="Effectuer ma simulation" onClick={() => (window.location.href = '/loan_simulator')} />
+      <div className="buttonLaunchApp">
+      <Button  text="Lancer l'application"  onClick={() => (window.location.href = '/login')} />
+
+      </div>
 
       <div className="content_group">
         <ContentCard1 text="Des courties à l'écoute et disponibles pour répondre à vos besoins" />

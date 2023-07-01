@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import '../style/Button.css';
+import '../style/style-components/Button.css';
 
 export default function Button(props) {
   return (

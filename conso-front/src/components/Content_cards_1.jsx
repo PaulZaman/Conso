@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { GrValidate } from 'react-icons/gr';
-import '../style/ContentCard1.css';
+import '../style/style-components/ContentCard1.css';
 
 export default function ContentCard1(props) {
   return (

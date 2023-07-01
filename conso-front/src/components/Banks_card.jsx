@@ -1,4 +1,4 @@
-import '../style/Banks_card.css'
+import '../style/style-components/Banks_card.css'
 import SG from '../asset/logo-societe-generale.png'
 import CM from '../asset/logo-Crédit-Mutuel.png'
 import CA from '../asset/logo-credit-agricole.png'

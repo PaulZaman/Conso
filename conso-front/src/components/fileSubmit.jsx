@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import "../style/fileSubmit.css";
+import "../style/style-components/fileSubmit.css";
 import Button from "../components/button";
 import { useState, useEffect } from "react";
 import { storage } from "../config/firebase";

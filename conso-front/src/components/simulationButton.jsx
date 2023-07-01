@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { GrValidate } from 'react-icons/gr';
-import '../style/simulationButton.css';
+import '../style/style-components/simulationButton.css';
 
 export default function SimulationButton(props) {
   return (

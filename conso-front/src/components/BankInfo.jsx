@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import '../style/BankInfo.css';
+import '../style/style-components/BankInfo.css';
 
 export default function BankInfo(props) {
   return (

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import "../style/LoanSimulator.css"; // Ajout de la feuille de style
+import "../style/style-pages/LoanSimulator.css"; // Ajout de la feuille de style
 
 export default function LoanSimulator() {
   const [revenuMensuel, setRevenuMensuel] = useState(0);

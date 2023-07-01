@@ -5,8 +5,8 @@ import Footer from "../components/Footer";
 import ApplicationBanker from "../components/ApplicationsBanker";
 import authentificate_user from "../authentification";
 import apiLink from "../constants";
-import "../style/LoanVisualizationBankerModal.css";
-import "../style/LoanVisualizationBanker.css";
+import "../style/style-components/LoanVisualizationBankerModal.css";
+import "../style/style-pages/LoanVisualizationBanker.css";
 import Button from "../components/button";
 Modal.setAppElement("#root");
 

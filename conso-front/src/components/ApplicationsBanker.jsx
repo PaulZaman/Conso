@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import '../style/ApplicationBanker.css';
+import '../style/style-components/ApplicationBanker.css';
 
 
 export default function ApplicationBanker(props) {

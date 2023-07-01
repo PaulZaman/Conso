@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import FileUploader from "../components/fileSubmit";
 import { useState, useEffect } from "react";
-import "../style/Profile.css";
+import "../style/style-pages/Profile.css";
 import Button from "../components/button";
 import apiLink from "../constants";
 import authentificate_user from "../authentification";

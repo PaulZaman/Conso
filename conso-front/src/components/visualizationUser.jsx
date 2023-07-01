@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import '../style/visualizationUser.css';
+import '../style/style-components/visualizationUser.css';
 
 export default function VisualizationUser(props) {
   let color;

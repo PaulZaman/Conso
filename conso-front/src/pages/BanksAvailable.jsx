@@ -2,7 +2,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import BankInfo from "../components/BankInfo";
 import CE from '../asset/logo-caisse-epargne.png';
-import '../style/BanksAvailable.css'
+import '../style/style-pages/BanksAvailable.css'
 
 export default function BanksAvailable(){
     return (
