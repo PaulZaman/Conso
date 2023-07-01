@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import "../style/LoanSimulator.css"; // Ajout de la feuille de style
@@ -22,38 +22,34 @@ export default function LoanSimulator() {
   return (
     <>
       <Header />
-      <h1>Simuler ma capacité d&eapos;emprunt</h1>
+      <h1>Simuler ma capacité d'emprunt</h1>
       <div className="loan-simulator-container">
         <div className="form-box">
           <h2>Ma situation</h2>
           <div>
-            <label>
-              Demandeur(s)
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    name="personnes"
-                    value={1}
-                    checked={personnes === 1}
-                    onChange={() => setPersonnes(1)}
-                  />
-                  Seul
-                </label>
-              </div>
-              <div>
-                <label>
-                  <input
-                    type="radio"
-                    name="personnes"
-                    value={2}
-                    checked={personnes === 2}
-                    onChange={() => setPersonnes(2)}
-                  />
-                  À deux
-                </label>
-              </div>
-            </label>
+            <label>Demandeur(s)</label>
+            <div className="radio-group">
+              <label>
+                <input
+                  type="radio"
+                  name="personnes"
+                  value={1}
+                  checked={personnes === 1}
+                  onChange={() => setPersonnes(1)}
+                />
+                Seul
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  name="personnes"
+                  value={2}
+                  checked={personnes === 2}
+                  onChange={() => setPersonnes(2)}
+                />
+                À deux
+              </label>
+            </div>
           </div>
           <div>
             <label>
@@ -70,7 +66,7 @@ export default function LoanSimulator() {
           </div>
           <div>
             <label>
-              Durée d&eapos;endettement (en années)
+              Durée d'endettement
               <input
                 type="range"
                 min="0"
@@ -88,25 +84,30 @@ export default function LoanSimulator() {
             <span>Mensualité</span>
             <span>{mensualite} €</span>
           </p>
+
           <p>
-            <span>Capacité d&eapos;emprunt</span>
+            <span>Durée d'endettement</span>
+            <span>{dureeEndettement} ans</span>
+          </p>
+          <hr className="separator" />
+          <p>
+            <span>Capacité d'emprunt</span>
             <span>{capaciteEmprunt} €</span>
           </p>
+
           <p>
             <span>Coût total du crédit</span>
             <span>{coutCredit} €</span>
           </p>
+
           <p>
             <span>Coût du crédit</span>
             <span>{coutDuCredit} €</span>
           </p>
+
           <p>
             <span>Taux moyen</span>
             <span>{tauxEmprunt}%</span>
-          </p>
-          <p>
-            <span>Durée d&eapos;endettement</span>
-            <span>{dureeEndettement} ans</span>
           </p>
         </div>
       </div>

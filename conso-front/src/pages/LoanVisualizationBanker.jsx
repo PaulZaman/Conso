@@ -19,7 +19,12 @@ export default function LoanVisualizationBanker() {
   const [dob, setDob] = useState("");
   const [salary, setSalary] = useState("");
   const [email, setEmail] = useState("");
-  const [interestRate, setInterestRate] = useState(""); // New state for interest rate
+  const [interestRate, setInterestRate] = useState("");
+  const [userDocuments, setUserDocuments] = useState([]);
+
+  const [documentPaths, setDocumentPaths] = useState([]);
+
+  // New state for interest rate
 
   useEffect(() => {
     const authenticateUser = async () => {
@@ -44,6 +49,7 @@ export default function LoanVisualizationBanker() {
         .then((response) => response.json())
         .then((data) => {
           // Handle the response data
+          console.log(data.applications);
           setApplications(data.applications);
         })
         .catch((error) => {
@@ -68,13 +74,17 @@ export default function LoanVisualizationBanker() {
     })
       .then((response) => response.json())
       .then((data) => {
+        alert("Application rejected");
         // Handle the response data
-        alert(`rejected: ${data}`);
       })
       .catch((error) => {
         // Handle any errors that occur during the request
         console.error(error);
       });
+  };
+  // afficher correctement le nom d'un document
+  const decodeURL = (url) => {
+    return decodeURIComponent(url.replace(/\+/g, " "));
   };
 
   const makeOffer = async (application, interestRate) => {
@@ -92,8 +102,8 @@ export default function LoanVisualizationBanker() {
     })
       .then((response) => response.json())
       .then((data) => {
+        alert("Application accepted, offer created");
         // Handle the response data
-        alert("offer made:"+data)
       })
       .catch((error) => {
         // Handle any errors that occur during the request
@@ -116,11 +126,23 @@ export default function LoanVisualizationBanker() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data
+        console.log(data.user);
         setFirstName(data.user.firstname);
         setLastName(data.user.lastname);
         setDob(new Date(data.user.dob).toLocaleDateString("en-GB"));
         setEmail(data.user.email);
         setSalary(data.user.salary);
+        setUserDocuments(data.documents);
+
+        // Loop through the documents and store the paths in an array
+        const documentPaths = data.documents.map(
+          (document) => document.document_path
+        );
+        console.log(data);
+        console.log(documentPaths);
+
+        // Update the state with the document paths
+        setDocumentPaths(documentPaths);
       })
       .catch((error) => {
         // Handle any errors that occur during the request
@@ -147,7 +169,7 @@ export default function LoanVisualizationBanker() {
   const handleAccept = () => {
     // Perform the accept action here
     makeOffer(selectedApplication, interestRate);
-    alert("Application accepted:", selectedApplication);
+    console.log("Application accepted:", selectedApplication);
     // Reset the selected application and interest rate
     setSelectedApplication(null);
     setInterestRate("");
@@ -157,7 +179,7 @@ export default function LoanVisualizationBanker() {
   const handleReject = () => {
     // Perform the reject action here
     rejectApplication(selectedApplication);
-    alert("Application rejected:", selectedApplication);
+    console.log("Application rejected:", selectedApplication);
     // Reset the selected application
     setSelectedApplication(null);
     location.reload();
@@ -169,6 +191,22 @@ export default function LoanVisualizationBanker() {
     openModal();
   };
 
+  const handleOpenAllDocuments = () => {
+    documentPaths.forEach((documentPath) => {
+      window.open(documentPath, "_blank");
+    });
+  };
+
+  const getFileNameFromPath = (filePath) => {
+    const parts = filePath.split("/");
+    let fileName = parts[parts.length - 1];
+    const questionMarkIndex = fileName.indexOf("?");
+    if (questionMarkIndex !== -1) {
+      fileName = fileName.substring(0, questionMarkIndex);
+    }
+    return fileName;
+  };
+
   return (
     <>
       <Header />
@@ -177,9 +215,7 @@ export default function LoanVisualizationBanker() {
         <h1>Approved Applications</h1>
         <ul>
           {approvedApplications.map((application, index) => (
-            <li
-              key={index}
-            >
+            <li key={index}>
               <ApplicationBanker
                 id={application.id} // Pass the user's first name as prop
                 loanAmount={application.amount}
@@ -193,10 +229,7 @@ export default function LoanVisualizationBanker() {
         <h1>Pending Applications</h1>
         <ul>
           {pendingApplications.map((application, index) => (
-            <li
-              key={index}
-              onClick={() => handleApplicationClick(application)}
-            >
+            <li key={index} onClick={() => handleApplicationClick(application)}>
               <ApplicationBanker
                 id={application.id} // Pass the user's first name as prop
                 loanAmount={application.amount}
@@ -233,7 +266,23 @@ export default function LoanVisualizationBanker() {
                 <b>{selectedApplication.tenure}</b> years
               </p>
             </div>
-            <p>Files</p>
+            <p>Files:</p>
+            {documentPaths.length > 0 ? (
+              <>
+                {documentPaths.map((documentPath, index) => (
+                  <div key={index}>
+                    <p>{getFileNameFromPath(decodeURL(documentPath))}</p>
+                  </div>
+                ))}
+                <Button
+                  text="Ouvrir les documents"
+                  onClick={handleOpenAllDocuments}
+                />
+              </>
+            ) : (
+              <p>Aucun fichier trouvé.</p>
+            )}
+
             <p>Interest rate :</p>
             <input
               type="text"

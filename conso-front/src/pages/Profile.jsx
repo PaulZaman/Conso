@@ -19,10 +19,10 @@ export default function Profile() {
   const [bankID, setBankID] = useState("");
   const [bankLogoPath, setBankLogoPath] = useState("");
   const [requiredDocuments, setRequiredDocuments] = useState([]);
-
+  const [fileUploaderVisible, setFileUploaderVisible] = useState(false); // État pour gérer la visibilité des FileUploader
 
   useEffect(() => {
-    // athentificate user
+    // authentify user
     const authenticateUser = async () => {
       let res = await authentificate_user();
       if (res === false) {
@@ -47,7 +47,7 @@ export default function Profile() {
           // Handle any errors that occur during the request
           console.log(error);
         });
-      
+
       fetch(`${apiLink}/user`, {
         method: "POST",
         body: JSON.stringify({
@@ -71,73 +71,60 @@ export default function Profile() {
           // Handle any errors that occur during the request
           console.log(error);
         });
-        
     };
     getInfo();
 
-    
-  const isUserBanker = () => {
-    fetch(`${apiLink}/user/isBanker`, {
-      method: "POST",
-      body: JSON.stringify({
-        id: localStorage.getItem("user_id"),
-        token: localStorage.getItem("token"),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setIsBanker(data.result);
+    const isUserBanker = () => {
+      fetch(`${apiLink}/user/isBanker`, {
+        method: "POST",
+        body: JSON.stringify({
+          id: localStorage.getItem("user_id"),
+          token: localStorage.getItem("token"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  isUserBanker();
+        .then((response) => response.json())
+        .then((data) => {
+          setIsBanker(data.result);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    isUserBanker();
 
-
-  const bankInfo = () => {
-    fetch(`${apiLink}/banker/bank`, {
-      method: "POST",
-      body: JSON.stringify({
-        id: localStorage.getItem("user_id"),
-        token: localStorage.getItem("token"),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-    
-
+    const bankInfo = () => {
+      fetch(`${apiLink}/banker/bank`, {
+        method: "POST",
+        body: JSON.stringify({
+          id: localStorage.getItem("user_id"),
+          token: localStorage.getItem("token"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
           setBankID(data.bank.id);
           setBankName(data.bank.name);
-          setBankLogoPath(data.bank.logo_path)
-          setRequiredDocuments(data.bank.documents_required)
-        
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
-  bankInfo();
-    
+          setBankLogoPath(data.bank.logo_path);
+          setRequiredDocuments(data.bank.documents_required);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+    bankInfo();
   }, []);
-
-
-  
-
-
-
-
 
   const handleLogout = () => {
     localStorage.clear();
     window.location.href = "/home";
   };
+
   const handleUpdate = async () => {
     fetch(`${apiLink}/user/update`, {
       method: "POST",
@@ -164,37 +151,40 @@ export default function Profile() {
       });
   };
 
-
+  const toggleFileUploader = () => {
+    setFileUploaderVisible(!fileUploaderVisible);
+  };
 
   return (
     <>
       <Header />
-      {isBanker? (
+      {isBanker ? (
         <div className="bankerProfile">
-
-          <h1>BANK INFO</h1>
-          <img src={bankLogoPath} alt={bankID}></img>
-          <h3>{bankName}</h3>
-          <ul className="requiredDocumentBank">
-            {requiredDocuments.map((document) => (
-            <li  key={document.id}>{document.nametype}</li>
-            ))}
-          </ul>
-
-          <h1>BANKER INFO</h1>
-          <div>
-            <h3>{firstName}</h3>
-            <h3>{lastName}</h3>
+          <div className="bankerInfo">
+            <h1>BANKER INFO</h1>
+            <div className="bankerName">
+              <h3>{firstName}</h3>
+              <h3>{lastName}</h3>
+            </div>
+            <h3>{email}</h3>
+            <Button onClick={handleLogout} text="Log Out" />
           </div>
-          <h3>{email}</h3>
-          <Button onClick={handleLogout} text="Log Out" />
-
+          <div className="bankInfo">
+            <h1>BANK INFO</h1>
+            <img src={bankLogoPath} alt={bankID}></img>
+            <h3>{bankName}</h3>
+            <p>
+              <b>Required documents</b>
+            </p>
+            <ul className="requiredDocumentBank">
+              {requiredDocuments.map((document) => (
+                <li key={document.id}>{document.nametype}</li>
+              ))}
+            </ul>
+          </div>
         </div>
-      
       ) : (
-
         <div className="userProfile">
-
           <div className="uploadSection">
             <h1 className="profileTitle">My Profile</h1>
             <div className="profileInformation">
@@ -238,20 +228,20 @@ export default function Profile() {
 
             <div className="uploadSection">
               <div className="fileSection">
-                <h1>Mes documents</h1>
-                <div>
-                  {Object.keys(documentTypes).map((key) => (
-                    <div className="sectionPair" key={key}>
-                      <FileUploader item={documentTypes[key]} />
-                    </div>
-                  ))}
-                </div>
+        <Button className="documentsButton" onClick={toggleFileUploader} text="Mes documents" />
+                {fileUploaderVisible && (
+                  <div>
+                    {Object.keys(documentTypes).map((key) => (
+                      <div className="sectionPair" key={key}>
+                        <FileUploader item={documentTypes[key]} />
+                      </div>
+                    ))}
+                  </div>
+                )}
               </div>
             </div>
             <Button onClick={handleLogout} text="Log Out" />
-
           </div>
-
         </div>
       )}
       <Footer />

@@ -8,7 +8,7 @@ export default function Footer(){
             <div className='footer_list'>
                 <a href='/loan_simulator'>Estimer ma capacité d&apos;emprunt</a>
                 <a href='/about'>Qui sommes nous ?</a>
-                <a href='/loan_application'>Déposer ma demande de prêt</a>
+                <a href='/loan_visualization'>Déposer ma demande de prêt</a>
                 <a href='mailto:matthieu.vichet@efrei.net'>Nous contacter</a>
             </div>
         </footer>

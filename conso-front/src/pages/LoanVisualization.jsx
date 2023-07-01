@@ -128,6 +128,32 @@ export default function LoanVisualization() {
         console.error(error);
       });
   };
+
+  
+  const deleteApplication = async (application) => {
+    fetch(`${apiLink}/user/apply/del`, {
+      method: "POST",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+        token: localStorage.getItem("token"),
+        loan_application_id: application.id,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      
+      .then((data) => {
+        // Handle the response data
+      console.log(data)
+      })
+      .catch((error) => {
+        console.
+        // Handle any errors that occur during the request
+        console.error(error);
+      });
+  };
   
 
   
@@ -161,8 +187,10 @@ export default function LoanVisualization() {
       });
   };
 
-  const handleDelete = () => {
-      console.log("ca arrive");
+  const handleDelete = (application) => {
+      alert("You deleted your application");
+      deleteApplication(application);
+      location.reload();
   }
 
   const approvedApplications = applications.filter(
@@ -174,7 +202,7 @@ export default function LoanVisualization() {
   );
 
   const rejectedApplications = applications.filter(
-    (application) => application.status === "rejected"
+    (application) => application.status === "refused"
   );
 
   const handleApplicationClick = (application) => {
@@ -257,7 +285,7 @@ export default function LoanVisualization() {
           contentLabel="Modal 2"
           
           className="modal-content-"
-          overlayClassName="modal-overlay"
+          overlayClassName="modal-overlay-"
           
           >
           <h2>Offer associated with your loan application</h2>
@@ -316,7 +344,7 @@ export default function LoanVisualization() {
                 amount={application.amount}
                 tenure={application.tenure}
                 onClickText="Delete"
-                onClick={() => handleDelete()}
+                onClick={() => handleDelete(application)}
                 datePostedUser={new Date(application.date_posted).toLocaleDateString(
                   "en-GB"
                 )}
@@ -342,7 +370,9 @@ export default function LoanVisualization() {
                 status={application.status}
                 amount={application.amount}
                 tenure={application.tenure}
-                date={new Date(application.date_posted).toLocaleDateString(
+                onClickText="Delete"
+                onClick={() => handleDelete(application)}
+                datePostedUser={new Date(application.date_posted).toLocaleDateString(
                   "en-GB"
                 )}
               />
