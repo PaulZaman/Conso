@@ -181,6 +181,7 @@ export default function Profile() {
         console.log(data);
         setUpdateSuccess(true);
         setUpdateError(""); // Réinitialiser l'erreur s'il y en avait une précédemment
+        location.reload();
       } else {
         throw new Error("Impossible de mettre à jour les informations de l'utilisateur");
       }

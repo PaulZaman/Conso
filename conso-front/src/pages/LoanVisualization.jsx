@@ -379,5 +379,5 @@ export default function LoanVisualization() {
       <Footer />
     </>
   );
-  );
+
           }
