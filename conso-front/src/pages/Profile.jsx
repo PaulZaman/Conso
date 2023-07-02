@@ -7,7 +7,6 @@ import Button from "../components/button";
 import apiLink from "../constants";
 import authentificate_user from "../authentification";
 
-
 export default function Profile() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -22,9 +21,8 @@ export default function Profile() {
   const [requiredDocuments, setRequiredDocuments] = useState([]);
   const [fileUploaderVisible, setFileUploaderVisible] = useState(false); // État pour gérer la visibilité des FileUploader
   const [updateSuccess, setUpdateSuccess] = useState(false);
-  const [updateError, setUpdateError] = useState('');
+  const [updateError, setUpdateError] = useState("");
   const [initialUserInfo, setInitialUserInfo] = useState({});
-
 
   useEffect(() => {
     // authentify user
@@ -36,46 +34,45 @@ export default function Profile() {
     };
     authenticateUser();
     // get user + information about docs types
-    const getInfo = async () => {
-      fetch(`${apiLink}/document/types`, {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response data
-          setDocumentTypes(data);
-        })
-        .catch((error) => {
-          // Handle any errors that occur during the request
-          console.log(error);
-        });
 
-      fetch(`${apiLink}/user`, {
-        method: "POST",
-        body: JSON.stringify({
-          id: localStorage.getItem("user_id"),
-          token: localStorage.getItem("token"),
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          // Handle the response data
-          setFirstName(data.user.firstname);
-          setLastName(data.user.lastname);
-          setDob(new Date(data.user.dob).toLocaleDateString("en-GB"));
-          setEmail(data.user.email);
-          setPassword(data.user.password);
-        })
-        .catch((error) => {
-          // Handle any errors that occur during the request
-          console.log(error);
+    const getInfo = async () => {
+      try {
+        const response = await fetch(`${apiLink}/document/types`, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
+        if (response.ok) {
+          const data = await response.json();
+          setDocumentTypes(data);
+        } else {
+          throw new Error("Failed to fetch document types");
+        }
+
+        const userResponse = await fetch(`${apiLink}/user`, {
+          method: "POST",
+          body: JSON.stringify({
+            id: localStorage.getItem("user_id"),
+            token: localStorage.getItem("token"),
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+        if (userResponse.ok) {
+          const userData = await userResponse.json();
+          setFirstName(userData.user.firstname);
+          setLastName(userData.user.lastname);
+          setDob(new Date(userData.user.dob).toLocaleDateString("en-GB"));
+          setEmail(userData.user.email);
+          setPassword(userData.user.password);
+        } else {
+          throw new Error("Failed to fetch user information");
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
     getInfo();
 
@@ -129,8 +126,6 @@ export default function Profile() {
     window.location.href = "/home";
   };
 
-
-
   const handleUpdate = async () => {
     try {
       if (
@@ -156,7 +151,7 @@ export default function Profile() {
       const userBirthdate = new Date(dob);
       const ageDiff = currentDate.getTime() - userBirthdate.getTime();
       const ageInYears = Math.floor(ageDiff / (1000 * 3600 * 24 * 365.25));
-  
+
       if (ageInYears < 18) {
         setUpdateError("Vous devez avoir au moins 18 ans.");
         return;
@@ -183,11 +178,15 @@ export default function Profile() {
         setUpdateError(""); // Réinitialiser l'erreur s'il y en avait une précédemment
         location.reload();
       } else {
-        throw new Error("Impossible de mettre à jour les informations de l'utilisateur");
+        throw new Error(
+          "Impossible de mettre à jour les informations de l'utilisateur"
+        );
       }
     } catch (error) {
       console.error(error);
-      setUpdateError("Une erreur s'est produite lors de la mise à jour des informations de l'utilisateur.");
+      setUpdateError(
+        "Une erreur s'est produite lors de la mise à jour des informations de l'utilisateur."
+      );
       setUpdateSuccess(false); // Réinitialiser la valeur de mise à jour réussie en cas d'erreur
     }
   };
@@ -269,10 +268,14 @@ export default function Profile() {
               <p className="successMessage">Profil mis à jour avec succès !</p>
             )}
             <Button onClick={handleUpdate} text="Mettre à jour" />
-  
+
             <div className="uploadSection">
               <div className="fileSection">
-        <Button className="documentsButton" onClick={toggleFileUploader} text="Mes documents" />
+                <Button
+                  className="documentsButton"
+                  onClick={toggleFileUploader}
+                  text="Mes documents"
+                />
                 {fileUploaderVisible && (
                   <div>
                     {Object.keys(documentTypes).map((key) => (

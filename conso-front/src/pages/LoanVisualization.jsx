@@ -1,4 +1,4 @@
-import  { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Modal from "react-modal";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -13,7 +13,6 @@ import CA_logo from "../asset/logo-credit-agricole.png";
 import CM_logo from "../asset/logo-Crédit-Mutuel.png";
 import SG_logo from "../asset/logo-societe-generale.png";
 
-
 export default function LoanVisualization() {
   const [applications, setApplications] = useState([]);
   const [amount, setAmount] = useState("");
@@ -21,10 +20,10 @@ export default function LoanVisualization() {
   const [selectedOffer, setSelectedOffer] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
+  const [documentTypes, setDocumentTypes] = useState([]);
 
   const [selectedBank, setSelectedBank] = useState(null);
   const [bankIDS, setBankIDS] = useState([]);
-
 
   useEffect(() => {
     const authenticateUser = async () => {
@@ -57,35 +56,35 @@ export default function LoanVisualization() {
         });
     };
     getInfo();
+    const checkUserDocs = async () => {
+      
 
-    
-  const getBanks = async () => {
-    fetch(`${apiLink}/bank`, {
-      method: "POST",
-      body: JSON.stringify({
-        id: localStorage.getItem("user_id"),
-        token: localStorage.getItem("token"),
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response data
-        
-      const bankIDs = data.banks.map((bank) => bank.id);
-
-      // Utiliser setBankIDS pour définir le tableau des ID
-      setBankIDS(bankIDs);
-
+    const getBanks = async () => {
+      fetch(`${apiLink}/bank`, {
+        method: "POST",
+        body: JSON.stringify({
+          id: localStorage.getItem("user_id"),
+          token: localStorage.getItem("token"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
       })
-      .catch((error) => {
-        // Handle any errors that occur during the request
-        console.error(error);
-      });
-  };
-  getBanks();
+        .then((response) => response.json())
+        .then((data) => {
+          // Handle the response data
+
+          const bankIDs = data.banks.map((bank) => bank.id);
+
+          // Utiliser setBankIDS pour définir le tableau des ID
+          setBankIDS(bankIDs);
+        })
+        .catch((error) => {
+          // Handle any errors that occur during the request
+          console.error(error);
+        });
+    };
+    getBanks();
   }, []);
 
   const openModal = () => {
@@ -94,7 +93,6 @@ export default function LoanVisualization() {
   const openModal2 = () => {
     setModal2IsOpen(true);
   };
-  
 
   const closeModal = () => {
     setModalIsOpen(false);
@@ -104,7 +102,6 @@ export default function LoanVisualization() {
   const closeModal2 = () => {
     setModal2IsOpen(false);
   };
-  
 
   const getOffer = async (application) => {
     fetch(`${apiLink}/user/offer`, {
@@ -121,7 +118,7 @@ export default function LoanVisualization() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data
-        setSelectedOffer(data.offer)
+        setSelectedOffer(data.offer);
       })
       .catch((error) => {
         // Handle any errors that occur during the request
@@ -129,7 +126,6 @@ export default function LoanVisualization() {
       });
   };
 
-  
   const deleteApplication = async (application) => {
     fetch(`${apiLink}/user/apply/del`, {
       method: "POST",
@@ -143,20 +139,16 @@ export default function LoanVisualization() {
       },
     })
       .then((response) => response.json())
-      
+
       .then((data) => {
         // Handle the response data
-      console.log(data)
+        console.log(data);
       })
       .catch((error) => {
-        console.
-        // Handle any errors that occur during the request
         console.error(error);
       });
   };
-  
 
-  
   const createLoan = async (bankID, _amount, _tenure) => {
     fetch(`${apiLink}/user/apply`, {
       method: "POST",
@@ -165,7 +157,7 @@ export default function LoanVisualization() {
         token: localStorage.getItem("token"),
         bank_id: bankID,
         amount: _amount,
-        tenure: _tenure
+        tenure: _tenure,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -174,24 +166,25 @@ export default function LoanVisualization() {
       .then((response) => response.json())
       .then((data) => {
         // Handle the response data
-        if(data.message==='Error creating loan application'){
-          alert(data.message+". You may already have a loan accepted for this bank");
-
+        if (data.message === "Error creating loan application") {
+          alert(
+            data.message +
+              ". You may already have a loan accepted for this bank"
+          );
         }
         closeModal();
-
       })
       .catch((error) => {
         // Handle any errors that occur during the request
-        console.log(error)
+        console.log(error);
       });
   };
 
   const handleDelete = (application) => {
-      alert("You deleted your application");
-      deleteApplication(application);
-      location.reload();
-  }
+    alert("You deleted your application");
+    deleteApplication(application);
+    location.reload();
+  };
 
   const approvedApplications = applications.filter(
     (application) => application.status === "approved"
@@ -215,9 +208,13 @@ export default function LoanVisualization() {
       <div>
         <h1>Vos demandes de prêts</h1>
         <div className="yeu">
-          <Button onClick={openModal} className="test_____" text="Nouvelle Demande" />
+          <Button
+            onClick={openModal}
+            className="test_____"
+            text="Nouvelle Demande"
+          />
         </div>
-  
+
         <Modal
           isOpen={modalIsOpen}
           onRequestClose={closeModal}
@@ -240,65 +237,83 @@ export default function LoanVisualization() {
               placeholder="Durée"
             />
           </div>
-  
+
           <div className="bank-logos">
             <img
               src={CE_logo}
               alt="CE Bank"
-              className={`bank-logo ${selectedBank === bankIDS[1] ? "selected" : ""}`}
+              className={`bank-logo ${
+                selectedBank === bankIDS[1] ? "selected" : ""
+              }`}
               onClick={() => setSelectedBank(bankIDS[1])}
             />
             <img
               src={CA_logo}
               alt="CA Bank"
-              className={`bank-logo ${selectedBank === bankIDS[2] ? "selected" : ""}`}
+              className={`bank-logo ${
+                selectedBank === bankIDS[2] ? "selected" : ""
+              }`}
               onClick={() => setSelectedBank(bankIDS[2])}
             />
             <img
               src={CM_logo}
               alt="CM Bank"
-              className={`bank-logo ${selectedBank === bankIDS[3] ? "selected" : ""}`}
+              className={`bank-logo ${
+                selectedBank === bankIDS[3] ? "selected" : ""
+              }`}
               onClick={() => setSelectedBank(bankIDS[3])}
             />
             <img
               src={SG_logo}
               alt="SG Bank"
-              className={`bank-logo ${selectedBank === bankIDS[0] ? "selected" : ""}`}
+              className={`bank-logo ${
+                selectedBank === bankIDS[0] ? "selected" : ""
+              }`}
               onClick={() => setSelectedBank(bankIDS[0])}
             />
           </div>
           <div className="popUpButtons">
-            <Button text="Envoyer" onClick={() => {
-              if (!amount || !tenure) {
-                alert("Le montant et la durée sont des champs obligatoires");
-                return;
-              }
-              createLoan(selectedBank, amount, tenure);
-            }} />
+            <Button
+              text="Envoyer"
+              onClick={() => {
+                if (!amount || !tenure) {
+                  alert("Le montant et la durée sont des champs obligatoires");
+                  return;
+                }
+                createLoan(selectedBank, amount, tenure);
+              }}
+            />
             <Button text="Fermer" onClick={closeModal} />
           </div>
         </Modal>
-  
+
         <Modal
           isOpen={modal2IsOpen}
           onRequestClose={closeModal2}
           contentLabel="Modal 2"
           className="modal-content-"
           overlayClassName="modal-overlay"
-          
-          >
+        >
           <h2>Offer associated with your loan application</h2>
           <p>Your loan ID : #{selectedOffer.loan_application_id}</p>
-          <p>Request accepted at <b>{selectedOffer.interest_rate}%</b> annual interet rate</p>
-          <p>Accepted on {new Date(selectedOffer.date_posted).toLocaleDateString(
-                  "en-GB"
-                )}</p>
-          <p><i>Your banker will contact you soon to continue the loan procedure</i></p>
+          <p>
+            Request accepted at <b>{selectedOffer.interest_rate}%</b> annual
+            interet rate
+          </p>
+          <p>
+            Accepted on{" "}
+            {new Date(selectedOffer.date_posted).toLocaleDateString("en-GB")}
+          </p>
+          <p>
+            <i>
+              Your banker will contact you soon to continue the loan procedure
+            </i>
+          </p>
           <Button text="Close" onClick={closeModal2} />
         </Modal>
-  
+
         <h1>Demandes approuvées</h1>
-  
+
         <div className="labels">
           <p>ID</p>
           <p>Banque</p>
@@ -316,13 +331,19 @@ export default function LoanVisualization() {
                 amount={application.amount}
                 tenure={application.tenure}
                 onClickText="Voir l'offre"
-                onClick={() => { handleApplicationClick(application); getOffer(application); openModal2(); }}
-                datePostedUser={new Date(application.date_posted).toLocaleDateString("fr-FR")}
+                onClick={() => {
+                  handleApplicationClick(application);
+                  getOffer(application);
+                  openModal2();
+                }}
+                datePostedUser={new Date(
+                  application.date_posted
+                ).toLocaleDateString("fr-FR")}
               />
             </li>
           ))}
         </ul>
-  
+
         <h1>Demandes en attente</h1>
         <div className="labels">
           <p>ID</p>
@@ -342,14 +363,14 @@ export default function LoanVisualization() {
                 tenure={application.tenure}
                 onClickText="Delete"
                 onClick={() => handleDelete()}
-                datePostedUser={new Date(application.date_posted).toLocaleDateString(
-                  "en-GB"
-                )}
+                datePostedUser={new Date(
+                  application.date_posted
+                ).toLocaleDateString("en-GB")}
               />
             </li>
           ))}
         </ul>
-  
+
         <h1>Demandes rejetées</h1>
         <div className="labels">
           <p>ID</p>
@@ -375,9 +396,8 @@ export default function LoanVisualization() {
           ))}
         </ul>
       </div>
-  
+
       <Footer />
     </>
   );
-
-          }
+}

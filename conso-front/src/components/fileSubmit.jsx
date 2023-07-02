@@ -21,19 +21,21 @@ export default function FileUploader({ item }) {
 
     // Récupérer le document correspondant au document_type_id
     const getInfo = async () => {
-      fetch(`${api_link}/document/get`, {
-        method: "POST",
-        body: JSON.stringify({
-          id: localStorage.getItem("user_id"),
-          token: localStorage.getItem("token"),
-          document_type_id: item.id,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => {
+      try {
+        const response = await fetch(`${api_link}/document/get`, {
+          method: "POST",
+          body: JSON.stringify({
+            id: localStorage.getItem("user_id"),
+            token: localStorage.getItem("token"),
+            document_type_id: item.id,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
           if (data.message !== "Document not found") {
             const documentPath = data.document_path;
             const segments = documentPath.split("/");
@@ -41,10 +43,12 @@ export default function FileUploader({ item }) {
             const filename = filenameWithParams.split("?")[0];
             setDocumentName(filename);
           }
-        })
-        .catch(() => {
-          console.log("Erreur lors de la récupération du document");
-        });
+        } else {
+          throw new Error("Error retrieving document information");
+        }
+      } catch (error) {
+        console.log("Erreur lors de la récupération du document", error);
+      }
     };
 
     getInfo();
@@ -52,13 +56,13 @@ export default function FileUploader({ item }) {
 
   // return if item is not specified
   if (item == undefined) {
-    return;
+    return null;
   }
 
   const handleUpload = async () => {
-    // Delete the existing file
     try {
-      fetch(`${api_link}/document/get`, {
+      // Delete the existing file
+      const response = await fetch(`${api_link}/document/get`, {
         method: "POST",
         body: JSON.stringify({
           id: localStorage.getItem("user_id"),
@@ -68,77 +72,60 @@ export default function FileUploader({ item }) {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message !== "Document not found") {
-            const documentPath = data.document_path;
+      });
 
-            const storageRef = ref(storage, documentPath);
-            deleteObject(storageRef)
-              .then(() => {
-                console.log("Previous file deleted successfully");
-                uploadNewFile();
-              })
-              .catch((error) => {
-                console.log("Error deleting previous file:", error);
-              });
-          } else {
-            uploadNewFile();
-          }
-        })
-        .catch(() => {
-          console.log("Error retrieving document information");
+      if (response.ok) {
+        const data = await response.json();
+        if (data.message !== "Document not found") {
+          const documentPath = data.document_path;
+
+          const storageRef = ref(storage, documentPath);
+          await deleteObject(storageRef);
+          console.log("Previous file deleted successfully");
+        }
+
+        const storageRef = ref(storage, selectedFile.name);
+        await handleDelete();
+        await uploadBytes(storageRef, selectedFile);
+
+        const url = await getDownloadURL(storageRef);
+        console.log(url);
+
+        const documentData = {
+          id: localStorage.getItem("user_id"),
+          document_type_id: item.id,
+          document_path: url,
+          token: localStorage.getItem("token"),
+        };
+
+        const uploadResponse = await fetch(`${api_link}/document`, {
+          method: "POST",
+          body: JSON.stringify(documentData),
+          headers: {
+            "Content-Type": "application/json",
+          },
         });
-    } catch (e) {
-      console.log(e);
+
+        if (uploadResponse.ok) {
+          const uploadData = await uploadResponse.json();
+          console.log(uploadData);
+          setDocumentName(selectedFile.name);
+        } else {
+          throw new Error("Error uploading file");
+        }
+      } else {
+        throw new Error("Error retrieving document information");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 
-  const uploadNewFile = () => {
-    const storageRef = ref(storage, selectedFile.name);
-    handleDelete();
-    uploadBytes(storageRef, selectedFile)
-      .then(() => {
-        getDownloadURL(storageRef)
-          .then((url) => {
-            console.log(url);
-            const documentData = {
-              id: localStorage.getItem("user_id"),
-              document_type_id: item.id,
-              document_path: url,
-              token: localStorage.getItem("token"),
-            };
-
-            fetch(`${api_link}/document`, {
-              method: "POST",
-              body: JSON.stringify(documentData),
-              headers: {
-                "Content-Type": "application/json",
-              },
-            })
-              .then((response) => response.json())
-              .then((data) => {
-                console.log(data);
-                setDocumentName(selectedFile.name);
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-          })
-          .catch((error) => {
-            console.log("Error retrieving download URL:", error);
-          });
-      })
-      .catch((error) => {
-        console.log("Error uploading file:", error);
-      });
-  };
-  const handleDeleteServer = () => {
-    // delete from firebase
+  const handleDeleteServer = async () => {
     try {
       setDocumentName("");
-      fetch(`${api_link}/document/get`, {
+
+      const response = await fetch(`${api_link}/document/get`, {
         method: "POST",
         body: JSON.stringify({
           id: localStorage.getItem("user_id"),
@@ -148,49 +135,48 @@ export default function FileUploader({ item }) {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          if (data.message !== "Document not found") {
-            const documentPath = data.document_path;
+      });
 
-            const storageRef = ref(storage, documentPath);
-            deleteObject(storageRef)
-              .then(() => {
-                console.log("File deleted successfully");
-              })
-              .catch((error) => {
-                console.log("Error deleting file:", error);
-              });
-          }
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    } catch (e) {
-      console.log(e);
+      if (response.ok) {
+        const data = await response.json();
+        if (data.message !== "Document not found") {
+          const documentPath = data.document_path;
+
+          const storageRef = ref(storage, documentPath);
+          await deleteObject(storageRef);
+          console.log("File deleted successfully");
+        }
+      } else {
+        throw new Error("Error retrieving document information");
+      }
+    } catch (error) {
+      console.log(error);
     }
 
-    let documentToDeleteData = {
+    const documentToDeleteData = {
       id: localStorage.getItem("user_id"),
       document_type_id: item.id,
       token: localStorage.getItem("token"),
     };
 
-    fetch(`${api_link}/document`, {
-      method: "DELETE",
-      body: JSON.stringify(documentToDeleteData),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.log(error);
+    try {
+      const deleteResponse = await fetch(`${api_link}/document`, {
+        method: "DELETE",
+        body: JSON.stringify(documentToDeleteData),
+        headers: {
+          "Content-Type": "application/json",
+        },
       });
+
+      if (deleteResponse.ok) {
+        const deleteData = await deleteResponse.json();
+        console.log(deleteData);
+      } else {
+        throw new Error("Error deleting document");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleDelete = () => {
@@ -200,9 +186,10 @@ export default function FileUploader({ item }) {
       fileInput.value = ""; // Réinitialise la valeur du champ de sélection de fichier
     }
   };
-  const handleOpenLink = () => {
+
+  const handleOpenLink = async () => {
     try {
-      fetch(`${api_link}/document/get`, {
+      const response = await fetch(`${api_link}/document/get`, {
         method: "POST",
         body: JSON.stringify({
           id: localStorage.getItem("user_id"),
@@ -212,19 +199,20 @@ export default function FileUploader({ item }) {
         headers: {
           "Content-Type": "application/json",
         },
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data.document_path);
-          window.open(data.document_path, "_blank");
-        })
-        .catch(() => {
-          console.log("error");
-        });
-    } catch (e) {
-      console.log(e);
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.document_path);
+        window.open(data.document_path, "_blank");
+      } else {
+        throw new Error("Error retrieving document information");
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
+
   const handleDownload = () => {
     if (documentName) {
       const link = document.createElement("a");
@@ -233,6 +221,7 @@ export default function FileUploader({ item }) {
       link.click();
     }
   };
+
   // Fonction pour décoder l'URL et remplacer les %20 par des espaces
   const decodeURL = (url) => {
     return decodeURIComponent(url.replace(/\+/g, " "));
