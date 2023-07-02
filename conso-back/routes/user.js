@@ -1,7 +1,7 @@
 // routes/user.js
 const express = require('express');
 const router = express.Router();
-const { createUser, deleteUser, updateUser, validate, getUser, getUserApplications, userIsBanker, getOffer } = require('../controllers/userController');
+const { createUser, deleteUser, updateUser, validate, getUser, getUserApplications, userIsBanker, getOffer, checkDocuments } = require('../controllers/userController');
 const { authenticate } = require('../routes/auth');
 const { CreateLoanApplication, deleteLoanApplication } = require('../controllers/LoanController');
 const User = require('../models/UserModel');
@@ -35,6 +35,9 @@ router.post('/isBanker', authenticate, userIsBanker);
 
 // Get the offer for a loan application
 router.post('/offer', authenticate, getOffer);
+
+// check if the user has all documents to apply for a loan
+router.post('/checkDocuments', authenticate, checkDocuments)
 
 
 module.exports = router;

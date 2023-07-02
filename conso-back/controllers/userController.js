@@ -7,6 +7,8 @@ const transporter = require('../email');
 const LoanApplications = require('../models/LoanApplicationModel');
 const Banker = require('../models/BankerModel');
 const Offer = require('../models/OfferModel');
+const Bank = require('../models/BankModel');
+const DocumentType = require('../models/DocumentTypeModel');
 
 async function createUser(req, res) {
 	try {
@@ -81,29 +83,30 @@ async function deleteUser(req, res) {
 
 // Update a user
 const updateUser = async (req, res) => {
-    const { firstname, lastname, dob, email, password, id } = req.body;
+	const { firstname, lastname, dob, email, password, id } = req.body;
 
-    try {
-      const user = await User.findByPk(id);
+	try {
+		const user = await User.findByPk(id);
 
-      if (!user) {
-        return res.status(404).json({ error: 'User not found' });
-      }
+		if (!user) {
+			return res.status(404).json({ error: 'User not found' });
+		}
 
-      user.firstname = firstname;
-      user.lastname = lastname;
-      user.dob = dob;
-      user.email = email;
-      user.password = password;
+		user.firstname = firstname;
+		user.lastname = lastname;
+		user.dob = dob;
+		user.email = email;
+		user.password = password;
 
-      await user.save();
+		await user.save();
 
-      res.status(200).json({ message: 'User information updated successfully' });
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Failed to update user information' });
-    }
-  };
+		res.status(200).json({ message: 'User information updated successfully' });
+	} catch (error) {
+		console.error(error);
+		res.status(500).json({ error: 'Failed to update user information' });
+	}
+};
+
 async function sendVerificationMail(email, id) {
 	// create a verification token for this user
 	const token = Math.floor(1000 + Math.random() * 9000);
@@ -239,6 +242,56 @@ async function getOffer(req, res) {
 	}
 }
 
+async function checkDocuments(req, res) {
+	const { id, bank_id } = req.body;
+	try {
+		// find the user
+		const user = await User.findByPk(id);
+		if (!user) {
+			return res.status(404).json({ message: 'User not found' });
+		}
+		// get the bank
+		const bank = await Bank.findByPk(bank_id);
+		if (!bank) {
+			return res.status(404).json({ message: 'Bank not found' });
+		}
+		// find the documents required for the bank
+		let bank_ids = Object.keys(bank.documents_required);
+		const documentsRequired = await DocumentType.findAll({
+			where: { id: bank_ids },
+		});
+		// find the documents uploaded by the user
+		const documentsUploaded = await Document.findAll({
+			where: { user_id: id },
+		});
+
+		// check if the user has uploaded all the documents
+		// get documents required types id
+		let documentsRequiredTypesIds = documentsRequired.map((document) => document.id);
+		// get documents uploaded types id
+		let documentsUploadedTypesIds = documentsUploaded.map((document) => document.document_type_id);
+		// check if the user has uploaded all the documents
+		let notUploaded = documentsRequiredTypesIds.filter((document) => !documentsUploadedTypesIds.includes(document));
+		// Associate not uploaded documents with their types
+
+		let missingDocs = [];
+		notUploaded.forEach((document) => {
+			let doc = documentsRequired.find((doc) => doc.id === document);
+			missingDocs.push(doc);
+		});
+
+		if (notUploaded.length > 0) {
+			return res.status(200).json({ message: 'Documents not all uploaded', Missingdocuments: missingDocs });
+		}
+
+		res.status(200).json({ message: 'Documents checked' });
+	}
+	catch (error) {
+		console.log(error)
+		res.status(500).json({ message: 'Error checking documents' });
+	}
+}
+
 
 module.exports = {
 	createUser,
@@ -248,5 +301,6 @@ module.exports = {
 	getUser,
 	getUserApplications,
 	userIsBanker,
-	getOffer
+	getOffer,
+	checkDocuments
 };

@@ -140,8 +140,22 @@ async function deleteDocument(req, res) {
 	}
 }
 
+async function getOrPostDocumentsUser(req, res) {
+	const { id, document_type_id, document_path } = req.body;
+	if (id && document_type_id && document_path) {
+		return postDocumentUser(req, res);
+	}
+	if (id && document_type_id) {
+		return getDocumentUser(req, res);
+	}
+	if (id) {
+		return getDocumentsUser(req, res);
+	}
+	return res.status(400).json({ message: 'Missing parameters' });
+}
 
 
 
 
-module.exports = { getDocumentTypes, postDocumentUser, getDocumentsUser, getDocumentUser, deleteDocument }
+
+module.exports = { getDocumentTypes, getOrPostDocumentsUser, deleteDocument }

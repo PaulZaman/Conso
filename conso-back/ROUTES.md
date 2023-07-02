@@ -21,23 +21,26 @@
 | POST http://localhost:8080/user/isBanker     | Check if a user is a banker | - id<br>- token            |
 | POST http://localhost:8080/user/offer       | Get an offer for an application            | - id<br>- token<br>- loan_application_id                                   |
 | POST http://localhost:8080/user/apply/del       | Delete a loan application           | - id<br>- token<br>- loan_application_id                                   |
+| POST http://localhost:8080/user/checkDocuments			 | Check if a user has all documents to apply for a bank           | - id<br>- token<br>- bank_id                                   |
 
 ## 🏦 Bank
 
 | Route                                | Description                          | Required Body |
 | ------------------------------------ | ------------------------------------ | ------------- |
-| POST http://localhost:8080/bank      | Get all banks or 1 bank              | OPTIONNEL: -bank_id <br> Si l'id de la banque n'est pas spécifié, cette route renvoi toutes les banques              |
-| POST http://localhost:8080/bank/docs | Get required documents for all banks | - bank_id     |
+| POST http://localhost:8080/bank      | Get all banks               |           |
+| POST http://localhost:8080/bank      | Get 1 bank              | -bank_id    |
+| POST http://localhost:8080/bank/docs | Get required documents for a banks | - bank_id     |
 
 ## 📄 Document
 
 | Route                                    | Description                        | Required Body                                            |
 | ---------------------------------------- | ---------------------------------- | -------------------------------------------------------- |
 | POST http://localhost:8080/document      | Post a document for a user         | - id<br>- token<br>- document_type_id<br>- document_path |
+| POST http://localhost:8080/document  | Get a specific document for a user | - id<br>- token<br>- document_type_id                         |
 | POST http://localhost:8080/document      | Get all documents for a user       | - id<br>- token                                          |
-| GET http://localhost:8080/document/types | Get all document types             |                                                          |
-| POST http://localhost:8080/document/get  | Get a specific document for a user | - id<br>- token<br>- document_type_id                         |
 | DEL http://localhost:8080/document       | Delete a document for a user       | - id<br>- token<br>- document_type_id                         |
+| GET http://localhost:8080/document/types | Get all document types             |                                                          |
+
 
 ## 🧑‍💼 Banker
 
