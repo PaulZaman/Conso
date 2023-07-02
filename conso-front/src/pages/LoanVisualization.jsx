@@ -56,8 +56,6 @@ export default function LoanVisualization() {
         });
     };
     getInfo();
-    const checkUserDocs = async () => {
-      
 
     const getBanks = async () => {
       fetch(`${apiLink}/bank`, {
