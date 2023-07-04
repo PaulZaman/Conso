@@ -20,7 +20,6 @@ export default function LoanVisualization() {
   const [selectedOffer, setSelectedOffer] = useState({});
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [modal2IsOpen, setModal2IsOpen] = useState(false);
-  const [documentTypes, setDocumentTypes] = useState([]);
 
   const [selectedBank, setSelectedBank] = useState(null);
   const [bankIDS, setBankIDS] = useState([]);
@@ -159,6 +158,40 @@ export default function LoanVisualization() {
   };
 
   const createLoan = async (bankID, _amount, _tenure) => {
+    // check if the user has all documents for this bank
+    await fetch(`${apiLink}/user/checkDocuments`, {
+      method: "POST",
+      body: JSON.stringify({
+        id: localStorage.getItem("user_id"),
+        token: localStorage.getItem("token"),
+        bank_id: bankID,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then(async (data) => {
+        // Handle the response data
+        if (data.message === "Documents not all uploaded") {
+          let missingDocs = "";
+          for (let i = 0; i < data.Missingdocuments.length; i++) {
+            missingDocs += "\n - " + data.Missingdocuments[i].nametype;
+          }
+          alert(
+            "You need to upload all documents for this bank. You are missing : \n" +
+              missingDocs +
+              "\n\n Go to you profile to upload them"
+          );
+          return;
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the request
+        console.log(error);
+      });
+
+    // create a loan application
     fetch(`${apiLink}/user/apply`, {
       method: "POST",
       body: JSON.stringify({
@@ -288,6 +321,10 @@ export default function LoanVisualization() {
                   alert("Le montant et la durée sont des champs obligatoires");
                   return;
                 }
+                if (!selectedBank) {
+                  alert("Veuillez sélectionner une banque");
+                  return;
+                }
                 createLoan(selectedBank, amount, tenure);
               }}
             />
@@ -353,8 +390,8 @@ export default function LoanVisualization() {
         <h1>Demandes en attente</h1>
         <div className="labels">
           <p>ID</p>
-          <p style={{ "padding-left": "50px" }}>Banque</p>
-          <p style={{ "padding-left": "50px" }}>Montant</p>
+          <p style={{ paddingLeft: "50px" }}>Banque</p>
+          <p style={{ paddingLeft: "50px" }}>Montant</p>
           <p>Durée</p>
           <p>Date </p>
         </div>
@@ -380,8 +417,8 @@ export default function LoanVisualization() {
         <h1>Demandes rejetées</h1>
         <div className="labels">
           <p>ID</p>
-          <p style={{ "padding-left": "100px" }}>Banque</p>
-          <p style={{ "padding-left": "100px" }}>Montant</p>
+          <p style={{ paddingLeft: "100px" }}>Banque</p>
+          <p style={{ paddingLeft: "100px" }}>Montant</p>
           <p>Durée</p>
           <p>Date</p>
         </div>

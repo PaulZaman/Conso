@@ -168,6 +168,10 @@ export default function LoanVisualizationBanker() {
 
   const handleAccept = () => {
     // Perform the accept action here
+    if (interestRate === "") {
+      alert("Please enter an interest rate");
+      return;
+    }
     makeOffer(selectedApplication, interestRate);
     console.log("Application accepted:", selectedApplication);
     // Reset the selected application and interest rate
