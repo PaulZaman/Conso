@@ -14,6 +14,6 @@ router.get('/types', getDocumentTypes);
 router.post('/', authenticate, getOrPostDocumentsUser);
 
 // Delete a document
-router.delete('/', authenticate, deleteDocument);
+router.post('/del', authenticate, deleteDocument);
 
 module.exports = router;

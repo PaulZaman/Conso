@@ -102,6 +102,11 @@ export default function LoanVisualization() {
   };
 
   const getOffer = async (application) => {
+    console.log(
+      localStorage.getItem("user_id"),
+      localStorage.getItem("token"),
+      application.id
+    );
     fetch(`${apiLink}/user/offer`, {
       method: "POST",
       body: JSON.stringify({
@@ -115,8 +120,12 @@ export default function LoanVisualization() {
     })
       .then((response) => response.json())
       .then((data) => {
-        // Handle the response data
-        setSelectedOffer(data.offer);
+        if (data.message === "Offer not found") {
+          alert("Offer not found");
+        } else {
+          setSelectedOffer(data.offer);
+          openModal2();
+        }
       })
       .catch((error) => {
         // Handle any errors that occur during the request
@@ -125,6 +134,7 @@ export default function LoanVisualization() {
   };
 
   const deleteApplication = async (application) => {
+    console.log(application);
     fetch(`${apiLink}/user/apply/del`, {
       method: "POST",
       body: JSON.stringify({
@@ -141,6 +151,7 @@ export default function LoanVisualization() {
       .then((data) => {
         // Handle the response data
         console.log(data);
+        //alert("You deleted your application");
       })
       .catch((error) => {
         console.error(error);
@@ -178,9 +189,8 @@ export default function LoanVisualization() {
       });
   };
 
-  const handleDelete = (application) => {
-    alert("You deleted your application");
-    deleteApplication(application);
+  const handleDelete = async (application) => {
+    await deleteApplication(application);
     location.reload();
   };
 
@@ -196,8 +206,8 @@ export default function LoanVisualization() {
     (application) => application.status === "refused"
   );
 
-  const handleApplicationClick = (application) => {
-    getOffer(application);
+  const handleApplicationClick = async (application) => {
+    await getOffer(application);
   };
 
   return (
@@ -329,10 +339,8 @@ export default function LoanVisualization() {
                 amount={application.amount}
                 tenure={application.tenure}
                 onClickText="Voir l'offre"
-                onClick={() => {
-                  handleApplicationClick(application);
-                  getOffer(application);
-                  openModal2();
+                onClick={async () => {
+                  await getOffer(application);
                 }}
                 datePostedUser={new Date(
                   application.date_posted
@@ -345,10 +353,10 @@ export default function LoanVisualization() {
         <h1>Demandes en attente</h1>
         <div className="labels">
           <p>ID</p>
-          <p>Banque</p>
-          <p>Montant</p>
+          <p style={{ "padding-left": "50px" }}>Banque</p>
+          <p style={{ "padding-left": "50px" }}>Montant</p>
           <p>Durée</p>
-          <p>Date</p>
+          <p>Date </p>
         </div>
         <ul>
           {pendingApplications.map((application, index) => (
@@ -360,7 +368,7 @@ export default function LoanVisualization() {
                 amount={application.amount}
                 tenure={application.tenure}
                 onClickText="Delete"
-                onClick={() => handleDelete()}
+                onClick={() => handleDelete(application)}
                 datePostedUser={new Date(
                   application.date_posted
                 ).toLocaleDateString("en-GB")}
@@ -372,8 +380,8 @@ export default function LoanVisualization() {
         <h1>Demandes rejetées</h1>
         <div className="labels">
           <p>ID</p>
-          <p>Banque</p>
-          <p>Montant</p>
+          <p style={{ "padding-left": "100px" }}>Banque</p>
+          <p style={{ "padding-left": "100px" }}>Montant</p>
           <p>Durée</p>
           <p>Date</p>
         </div>

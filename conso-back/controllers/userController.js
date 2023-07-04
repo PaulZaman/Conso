@@ -204,7 +204,7 @@ async function userIsBanker(req, res) {
 		}
 		const banker = await Banker.findOne({ where: { user_id: id } });
 		if (!banker) {
-			return res.status(404).json({ message: 'User is not a banker', result: false });
+			return res.status(200).json({ message: 'User is not a banker', result: false });
 		}
 		res.status(200).json({ message: 'User is a banker', result: true });
 	} catch (error) {

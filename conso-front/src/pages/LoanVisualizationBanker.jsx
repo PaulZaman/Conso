@@ -210,7 +210,7 @@ export default function LoanVisualizationBanker() {
   return (
     <>
       <Header />
-      <h1>Consulter vos demandes de prêts</h1>
+      <h1>Consulter vos requêtes de prêts</h1>
       <div className="applications">
         <h1>Demandes approuvées</h1>
         <ul>

@@ -1,39 +1,73 @@
-import PropTypes from 'prop-types';
-import '../style/style-components/visualizationUser.css';
+import PropTypes from "prop-types";
+import "../style/style-components/visualizationUser.css";
+import { useEffect } from "react";
+import { useState } from "react";
+import apiLink from "../constants";
 
-export default function VisualizationUser(props) {
+export default function VisualizationUser({
+  status,
+  applicationID,
+  bank,
+  amount,
+  tenure,
+  datePostedUser,
+  onClick,
+  onClickText,
+}) {
   let color;
+  const [bankName, setBankName] = useState("");
 
-  if (props.status === 'pending') {
-    color = 'orange';
-  } else if (props.status === 'approved') {
-    color = 'green';
+  if (status === "pending") {
+    color = "orange";
+  } else if (status === "approved") {
+    color = "green";
   } else {
-    color = 'red';
+    color = "red";
   }
+
+  useEffect(() => {
+    // Get bank name when component is mounted
+    const getBankName = async () => {
+      let body = {
+        bank_id: bank,
+      };
+      const response = await fetch(apiLink + "/bank", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      const data = await response.json();
+      if ((data.message = "Bank retrieved syccefully")) {
+        setBankName(data.bank.name);
+      }
+    };
+    getBankName();
+  }, [status]);
 
   return (
     <>
-      {props.status === 'approved' ? (
+      {status === "approved" ? (
         <div style={{ borderColor: color }} className="visualizationCard">
-          <p>{props.applicationID}</p>
-          <p>{props.bank}</p>
-          <p>{props.amount}€</p>
-          <p>{props.tenure} années</p>
-          <p>{props.datePostedUser}</p>
-          <a className="link" onClick={props.onClick}>
-            {props.onClickText}
+          <p>{applicationID}</p>
+          <p>{bankName}</p>
+          <p>{amount}€</p>
+          <p>{tenure} mois</p>
+          <p>{datePostedUser}</p>
+          <a className="link" onClick={onClick}>
+            {onClickText}
           </a>
         </div>
       ) : (
         <div style={{ borderColor: color }} className="visualizationCard">
-          <p>{props.applicationID}</p>
-          <p>{props.bank}</p>
-          <p>{props.amount}€</p>
-          <p>{props.tenure} années </p>
-          <p>{props.datePostedUser}</p>
-          <a className="link" onClick={props.onClick}>
-            {props.onClickText}
+          <p>{applicationID}</p>
+          <p>{bankName}</p>
+          <p>{amount}€</p>
+          <p>{tenure} mois </p>
+          <p>{datePostedUser}</p>
+          <a className="link" onClick={onClick}>
+            {onClickText}
           </a>
         </div>
       )}
@@ -44,10 +78,10 @@ export default function VisualizationUser(props) {
 VisualizationUser.propTypes = {
   applicationID: PropTypes.number.isRequired,
   bank: PropTypes.number.isRequired,
-  status: PropTypes.oneOf(['pending', 'approved', 'refused']).isRequired,
+  status: PropTypes.oneOf(["pending", "approved", "refused"]).isRequired,
   amount: PropTypes.number.isRequired,
   tenure: PropTypes.number.isRequired,
-  datePostedUser: PropTypes.string.isRequired,
-  onClick: PropTypes.func.isRequired,
-  onClickText: PropTypes.string.isRequired,
+  datePostedUser: PropTypes.string,
+  onClick: PropTypes.func,
+  onClickText: PropTypes.string,
 };

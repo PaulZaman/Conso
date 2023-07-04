@@ -76,7 +76,7 @@ export default function Profile() {
     };
     getInfo();
 
-    const isUserBanker = () => {
+    const isUserBanker = async () => {
       fetch(`${apiLink}/user/isBanker`, {
         method: "POST",
         body: JSON.stringify({
@@ -90,14 +90,18 @@ export default function Profile() {
         .then((response) => response.json())
         .then((data) => {
           setIsBanker(data.result);
+          if (data.result === true) {
+            bankInfo();
+          }
         })
         .catch((error) => {
           console.log(error);
+          return false;
         });
     };
     isUserBanker();
 
-    const bankInfo = () => {
+    const bankInfo = async () => {
       fetch(`${apiLink}/banker/bank`, {
         method: "POST",
         body: JSON.stringify({
@@ -110,6 +114,7 @@ export default function Profile() {
       })
         .then((response) => response.json())
         .then((data) => {
+          console.log(data);
           setBankID(data.bank.id);
           setBankName(data.bank.name);
           setBankLogoPath(data.bank.logo_path);
@@ -119,7 +124,6 @@ export default function Profile() {
           console.log(error);
         });
     };
-    bankInfo();
   }, []);
   const handleLogout = () => {
     localStorage.clear();
@@ -207,14 +211,13 @@ export default function Profile() {
               <h3>{lastName}</h3>
             </div>
             <h3>{email}</h3>
-            <Button onClick={handleLogout} text="Log Out" />
           </div>
           <div className="bankInfo">
             <h1>BANK INFO</h1>
             <img src={bankLogoPath} alt={bankID}></img>
-            <h3>{bankName}</h3>
+            <h3>Bank Name : {bankName}</h3>
             <p>
-              <b>Required documents</b>
+              <b>Required documents :</b>
             </p>
             <ul className="requiredDocumentBank">
               {requiredDocuments.map((document) => (
@@ -222,6 +225,7 @@ export default function Profile() {
               ))}
             </ul>
           </div>
+          <Button onClick={handleLogout} text="Déconnexion" />
         </div>
       ) : (
         <div className="userProfile">

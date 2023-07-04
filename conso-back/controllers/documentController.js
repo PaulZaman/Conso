@@ -101,7 +101,7 @@ async function getDocumentUser(req, res) {
 		const doc = await Document.findOne({ where: { user_id: id, document_type_id } })
 
 		if (!doc) {
-			return res.status(404).json({ message: 'Document not found' });
+			return res.status(204).json({ message: 'Document not found' });
 		}
 
 		res.status(200).json(doc);

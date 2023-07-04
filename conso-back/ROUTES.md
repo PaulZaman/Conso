@@ -38,7 +38,7 @@
 | POST http://localhost:8080/document      | Post a document for a user         | - id<br>- token<br>- document_type_id<br>- document_path |
 | POST http://localhost:8080/document  | Get a specific document for a user | - id<br>- token<br>- document_type_id                         |
 | POST http://localhost:8080/document      | Get all documents for a user       | - id<br>- token                                          |
-| DEL http://localhost:8080/document       | Delete a document for a user       | - id<br>- token<br>- document_type_id                         |
+| POST http://localhost:8080/document/del      | Delete a document for a user       | - id<br>- token<br>- document_type_id                         |
 | GET http://localhost:8080/document/types | Get all document types             |                                                          |
 
 
