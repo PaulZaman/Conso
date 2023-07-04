@@ -99,7 +99,7 @@ const storage = getStorage(app);
 
 export { storage, ref };
 ```
-Replace the "xxx" with your own firebase credentials. If you are our professors, you should have received them by email. 
+Replace the "xxx" with your own firebase credentials. If you are our professors, you can find the entirety of this file in the end of our report. 
 
 Now you are all set ! You can access the website on the url displayed in the terminal. 🌐✨
 
