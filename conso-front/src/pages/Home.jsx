@@ -11,7 +11,7 @@ export default function Home() {
       <Header />
       <h1 className="headSlogan">
         Terminés les rendez-vous interminables avec le banquier.{" "}
-        <b className="test">Conso.</b> fait tout pour vous
+        <b className="consoHeadSlogan">Conso.</b> fait tout pour vous.
       </h1>
       <div className="buttonLaunchApp">
       <Button  text="Lancer l'application"  onClick={() => (window.location.href = '/login')} />

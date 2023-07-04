@@ -70,7 +70,7 @@ export default function LoanSimulator() {
               <input
                 type="range"
                 min="0"
-                max="30"
+                max="15"
                 value={dureeEndettement}
                 onChange={(e) => setDureeEndettement(parseInt(e.target.value))}
               />
