@@ -9,6 +9,7 @@ const Banker = require('../models/BankerModel');
 const Offer = require('../models/OfferModel');
 const Bank = require('../models/BankModel');
 const DocumentType = require('../models/DocumentTypeModel');
+const bcrypt = require('bcrypt');
 
 async function createUser(req, res) {
 	try {
@@ -26,7 +27,8 @@ async function createUser(req, res) {
 		}
 
 		// Create the user using the User model
-		const user = await User.create({ firstname, lastname, dob, email, password, is_verified: false, profile_image_path, salary });
+		let hashedPassword = await bcrypt.hash(password, 10);
+		const user = await User.create({ firstname, lastname, dob, email, password: hashedPassword, is_verified: false, profile_image_path, salary });
 
 		// Send a verification email to the user
 		sendVerificationMail(user.email, user.id);
@@ -96,7 +98,7 @@ const updateUser = async (req, res) => {
 		user.lastname = lastname;
 		user.dob = dob;
 		user.email = email;
-		user.password = password;
+		user.password = await bcrypt.hash(password, 10);
 
 		await user.save();
 
@@ -145,7 +147,6 @@ async function validate(req, res) {
 		}
 		// check if the token is valid
 		const foundToken = await Token.findOne({ where: { user_id } });
-		console.log(foundToken.token, token)
 		if (foundToken.token !== token) {
 			return res.status(200).json({ message: 'Token is invalid' });
 		}
@@ -291,7 +292,6 @@ async function checkDocuments(req, res) {
 		res.status(500).json({ message: 'Error checking documents' });
 	}
 }
-
 
 module.exports = {
 	createUser,

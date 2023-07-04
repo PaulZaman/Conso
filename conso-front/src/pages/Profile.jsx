@@ -19,7 +19,7 @@ export default function Profile() {
   const [bankID, setBankID] = useState("");
   const [bankLogoPath, setBankLogoPath] = useState("");
   const [requiredDocuments, setRequiredDocuments] = useState([]);
-  const [fileUploaderVisible, setFileUploaderVisible] = useState(false); // État pour gérer la visibilité des FileUploader
+  const [fileUploaderVisible, setFileUploaderVisible] = useState(false);
   const [updateSuccess, setUpdateSuccess] = useState(false);
   const [updateError, setUpdateError] = useState("");
   const [initialUserInfo, setInitialUserInfo] = useState({});
@@ -214,7 +214,6 @@ export default function Profile() {
           </div>
           <div className="bankInfo">
             <h1>BANK INFO</h1>
-            <img src={bankLogoPath} alt={bankID}></img>
             <h3>Bank Name : {bankName}</h3>
             <p>
               <b>Required documents :</b>

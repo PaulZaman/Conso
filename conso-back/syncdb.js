@@ -9,6 +9,7 @@ const Offer = require("./models/OfferModel");
 const Document = require("./models/DocumentModel");
 const DocumentType = require("./models/DocumentTypeModel");
 const Token = require("./models/TokenModel");
+const bcrypt = require("bcrypt");
 
 docs = [
   { nametype: "ID" },
@@ -46,7 +47,7 @@ async function initDB() {
     firstname: "admin",
     lastname: "admin",
     email: "admin@gmail.com",
-    password: "admin",
+    password: await bcrypt.hash("admin", 10),
     dob: "1999-01-01",
     is_verified: true,
   });
@@ -56,7 +57,7 @@ async function initDB() {
     firstname: "banker",
     lastname: "banker",
     email: "admin-banker@gmail.com",
-    password: "admin",
+    password: await bcrypt.hash("admin", 10),
     dob: "1999-01-01",
     is_verified: true,
   });

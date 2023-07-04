@@ -6,6 +6,7 @@ const User = require('../models/UserModel');
 const Token = require('../models/TokenModel');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 
 // Secret key for JWT
 const secret_key = crypto.randomBytes(32).toString('hex');
@@ -17,6 +18,7 @@ function generateToken(email) {
 	return jwt.sign({ email }, secret_key, { expiresIn: '1h' });
 }
 
+// login route
 router.post('/', async (req, res) => {
 	const { email = "", password = "" } = req.body;
 	try {
@@ -29,7 +31,8 @@ router.post('/', async (req, res) => {
 		}
 
 		// Check if the password is correct
-		const isPasswordCorrect = user.password === password;
+		const isPasswordCorrect = await bcrypt.compare(password, user.password);
+		console.log(isPasswordCorrect)
 
 		if (!isPasswordCorrect) {
 			// If the password is incorrect, send an error message
@@ -59,6 +62,7 @@ router.post('/', async (req, res) => {
 			expiry: Date.now() + validationTime
 		});
 
+		// Send the token to the user
 		res.status(200).json({
 			message: 'Login successful',
 			token,
@@ -70,6 +74,7 @@ router.post('/', async (req, res) => {
 	}
 });
 
+// athentithicate user (used to access protected routes)
 async function authenticate(req, res, next) {
 	// Check if the request contains a valid token
 	const { token, id } = req.body;
