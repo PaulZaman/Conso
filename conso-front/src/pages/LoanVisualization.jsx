@@ -251,9 +251,9 @@ export default function LoanVisualization() {
               src={CE_logo}
               alt="CE Bank"
               className={`bank-logo ${
-                selectedBank === bankIDS[1] ? "selected" : ""
+                selectedBank === bankIDS[0] ? "selected" : ""
               }`}
-              onClick={() => setSelectedBank(bankIDS[1])}
+              onClick={() => setSelectedBank(bankIDS[0])}
             />
             <img
               src={CA_logo}
@@ -275,9 +275,9 @@ export default function LoanVisualization() {
               src={SG_logo}
               alt="SG Bank"
               className={`bank-logo ${
-                selectedBank === bankIDS[0] ? "selected" : ""
+                selectedBank === bankIDS[1] ? "selected" : ""
               }`}
-              onClick={() => setSelectedBank(bankIDS[0])}
+              onClick={() => setSelectedBank(bankIDS[1])}
             />
           </div>
           <div className="popUpButtons">

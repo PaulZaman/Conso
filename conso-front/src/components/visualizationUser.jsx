@@ -39,7 +39,7 @@ export default function VisualizationUser({
         body: JSON.stringify(body),
       });
       const data = await response.json();
-      if ((data.message = "Bank retrieved syccefully")) {
+      if ((data.message == "Bank retrieved successfully")) {
         setBankName(data.bank.name);
       }
     };
@@ -74,6 +74,8 @@ export default function VisualizationUser({
     </>
   );
 }
+
+
 
 VisualizationUser.propTypes = {
   applicationID: PropTypes.number.isRequired,
