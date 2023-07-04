@@ -3,9 +3,9 @@ import { getStorage, ref } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "xxx",
-  authDomain: "xxxxx.firebaseapp.com",
+  authDomain: "xxx",
   projectId: "xxx",
-  storageBucket: "xxx.appspot.com",
+  storageBucket: "xxx",
   messagingSenderId: "xxx",
   appId: "xxx",
   measurementId: "xxx",

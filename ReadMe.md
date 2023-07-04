@@ -7,6 +7,11 @@ This is an application to manage your loan applications. It is composed of a bac
 
 Before running the application, there are a few steps you need to follow.
 
+### Prerequisites 📋
+- Node.js
+- Yarn
+- MySQL 
+
 ### Backend ⚙️
 
 Navigate to the backend 📍
@@ -46,7 +51,7 @@ module.exports = sequelize;
 ```
 Do not forget to replace the "USER" and "PASSWORD" with your own mysql user and password. (USER is generally "root" and PASSWORD is the password you chose when you installed mysql) 🔒🔑
 
-Now that your database is created, and that your connection is established, you can initialize the backend. To do so, run the following commands (in the same directory /conso-back):
+Now that your database is created, and that your connection is established, you can initialize the backend. To do so, run the following commands (in the same directory **/conso-back**):
 
 
 ```bash
@@ -70,6 +75,31 @@ This allows you to navigate to the frontend directory. Then, run the following c
 yarn install
 yarn dev
 ```
+
+##### Firebase 🔥
+
+Last step ! You need to allow the project to access our firebase database. To do so, you need to rename the file **conso-front/src/config/firebaseEXAMPLE.js** to **firebase.js**. Inside you should find this:
+
+```javascript
+import { initializeApp } from "firebase/app";
+import { getStorage, ref } from "firebase/storage";
+
+const firebaseConfig = {
+  apiKey: "xxx",
+  authDomain: "xxx",
+  projectId: "xxx",
+  storageBucket: "xxx",
+  messagingSenderId: "xxx",
+  appId: "xxx",
+  measurementId: "xxx",
+};
+
+const app = initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+export { storage, ref };
+```
+Replace the "xxx" with your own firebase credentials. If you are our professors, you should have received them by email. 
 
 Now you are all set ! You can access the website on the url displayed in the terminal. 🌐✨
 
